@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@source '../views/**/*.blade.php';
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-serif: 'Playfair Display', Georgia, serif;
+
+    --color-bronze-300: #e2c992;
+    --color-bronze-400: #d4b26f;
+    --color-bronze-500: #c5a059;
+    --color-bronze-600: #ad8a42;
+    --color-bronze-700: #8a6a2c;
+
+    --color-obsidian-950: #0f1015;
+    --color-obsidian-900: #14151b;
+    --color-obsidian-850: #191b23;
+    --color-obsidian-800: #20222d;
+}
+
+body, html {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-arial {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
+}
+
+/* SweetAlert2 Button Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.875rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.75rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    border: none;
+    margin: 0.35rem;
+}
+.btn:active {
+    transform: scale(0.96);
+}
+.btn-success {
+    background-color: #10b981;
+    color: #ffffff;
+    box-shadow: 0 4px 12px -2px rgba(16, 185, 129, 0.35);
+}
+.btn-success:hover {
+    background-color: #059669;
+}
+.btn-danger {
+    background-color: #f43f5e;
+    color: #ffffff;
+    box-shadow: 0 4px 12px -2px rgba(244, 63, 94, 0.35);
+}
+.btn-danger:hover {
+    background-color: #e11d48;
+}
+
+/* SweetAlert2 Full-Height Fix: prevent height: auto on html/body from shrinking the sidebar */
+html.swal2-shown,
+body.swal2-shown,
+html.swal2-height-auto,
+body.swal2-height-auto {
+    height: 100% !important;
+}
+
+#mainSidebar {
+    min-height: 100vh !important;
+    height: 100% !important;
+}
