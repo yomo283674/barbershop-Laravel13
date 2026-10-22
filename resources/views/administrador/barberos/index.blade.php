@@ -336,7 +336,7 @@
 
 </div>
 
-<!-- ================= MODALES ================= -->
+<!--MODALES-->
 
 <!-- 1. Modal Registrar Barbero -->
 <div id="modalNuevoBarbero" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
@@ -361,13 +361,13 @@
 
             <!-- Nombre -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre Completo *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre Completo</label>
                 <input type="text" name="nombre" required placeholder="Ej: Mateo Silva" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
             <!-- Email -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Correo Electrónico *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Correo Electrónico</label>
                 <input type="email" name="email" required placeholder="mateo@barbershop.com" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
@@ -378,26 +378,26 @@
                     <input type="text" name="telefono" placeholder="310 987 6543" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cédula / Documento</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cédula o Documento</label>
                     <input type="text" name="numero_identificacion" placeholder="1020304050" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                 </div>
             </div>
 
             <!-- Especialidad -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Especialidad Principal *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Especialidad Principal</label>
                 <input type="text" name="especialidad" required placeholder="Ej: Fade Moderno, Afeitado Tradicional, Diseños" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
             <!-- Cargo -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cargo / Puesto</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cargo</label>
                 <input type="text" name="cargo" placeholder="Ej: Master Barber, Barbero Senior" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
             <!-- Contraseña de Acceso -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Contraseña de Acceso (Opcional, default: barbero123)</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Contraseña de Acceso</label>
                 <input type="password" name="password" placeholder="Mínimo 6 caracteres" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
@@ -436,12 +436,12 @@
             @method('PUT')
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre Completo *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre Completo</label>
                 <input type="text" name="nombre" id="edit_barbero_nombre" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Correo Electrónico *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Correo Electrónico</label>
                 <input type="email" name="email" id="edit_barbero_email" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
@@ -457,7 +457,7 @@
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Especialidad *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Especialidad</label>
                 <input type="text" name="especialidad" id="edit_barbero_especialidad" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
@@ -467,7 +467,7 @@
                     <input type="text" name="cargo" id="edit_barbero_cargo" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estado *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estado</label>
                     <select name="estado" id="edit_barbero_estado" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium cursor-pointer">
                         <option value="activo">Activo</option>
                         <option value="inactivo">Inactivo</option>

@@ -278,7 +278,7 @@
                                 </div>
                                 <div>
                                     <span class="text-[10px] uppercase tracking-wider font-extrabold text-amber-800 block leading-tight">Tu Ganancia</span>
-                                    <span class="text-[11px] font-medium text-amber-900/70">Comisión estimada (40%)</span>
+                                    <span class="text-[11px] font-medium text-amber-900/70">Comisión estimada</span>
                                 </div>
                             </div>
                             <div class="text-right">
@@ -354,7 +354,7 @@
             <!-- Carga de Foto del Corte -->
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">
-                    Foto / Imagen del Corte (Opcional)
+                    Foto o Imagen del Corte
                 </label>
                 
                 <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center gap-3.5">
@@ -393,7 +393,7 @@
 
             <!-- Nombre -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre del Servicio *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre del Servicio</label>
                 <input type="text" name="nombre" required placeholder="Ej: Fade Mid Skin & Texturizado Premium"
                     class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
             </div>
@@ -401,7 +401,7 @@
             <!-- Categoría y Tarifa -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Categoría *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Categoría</label>
                     <select name="id_categoria" required class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
                         @foreach($categorias as $cat)
                             <option value="{{ $cat->id_categoria }}">{{ $cat->nombre }}</option>
@@ -410,7 +410,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Tarifa al Público ($) *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Tarifa al Público</label>
                     <input type="number" name="precio" min="0" step="1000" required placeholder="35000"
                         class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
                 </div>
@@ -418,7 +418,7 @@
 
             <!-- Duración -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Duración Estimada (Minutos) *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Duración Estimada</label>
                 <input type="number" name="duracion_min" min="10" max="180" step="5" value="45" required
                     class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
             </div>
@@ -463,7 +463,7 @@
             <!-- Foto del Corte en Edición -->
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">
-                    Foto / Imagen del Corte
+                    Foto o Imagen del Corte
                 </label>
                 
                 <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center gap-3.5">
@@ -492,7 +492,7 @@
                             </button>
                         </div>
                         <p class="text-[11px] text-slate-400 mt-1.5 leading-tight">
-                            Selecciona una nueva imagen si deseas reemplazar la actual (máx. 5MB).
+                            Selecciona una nueva imagen si deseas reemplazar la actual.
                         </p>
                     </div>
                 </div>
@@ -500,7 +500,7 @@
 
             <!-- Nombre -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre del Servicio *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nombre del Servicio</label>
                 <input type="text" name="nombre" id="editNombre" required
                     class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
             </div>
@@ -508,7 +508,7 @@
             <!-- Categoría y Tarifa -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Categoría *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Categoría</label>
                     <select name="id_categoria" id="editCategoria" required class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
                         @foreach($categorias as $cat)
                             <option value="{{ $cat->id_categoria }}">{{ $cat->nombre }}</option>
@@ -517,7 +517,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Tarifa al Público ($) *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Tarifa al Público</label>
                     <input type="number" name="precio" id="editPrecio" min="0" step="1000" required
                         class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
                 </div>
@@ -526,13 +526,13 @@
             <!-- Duración y Estado -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Duración (Minutos) *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Duración</label>
                     <input type="number" name="duracion_min" id="editDuracion" min="10" max="180" step="5" required
                         class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Estado *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Estado</label>
                     <select name="estado" id="editEstado" required class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
                         <option value="ACTIVO">Activo (Visible al cliente)</option>
                         <option value="INACTIVO">Pausado (No disponible temporalmente)</option>

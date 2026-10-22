@@ -107,12 +107,12 @@
             <table class="w-full text-left text-xs">
                 <thead class="bg-slate-50/90 border-b border-slate-200/80 text-[11px] font-bold text-slate-400 uppercase tracking-wider font-sans">
                     <tr>
-                        <th class="px-5 py-3.5">Fecha & Hora</th>
+                        <th class="px-5 py-3.5">Fecha y Hora</th>
                         <th class="px-5 py-3.5">Cliente</th>
                         <th class="px-5 py-3.5">Servicio Contratado</th>
-                        <th class="px-5 py-3.5">Comisión (40%)</th>
+                        <th class="px-5 py-3.5">Comisión 40%</th>
                         <th class="px-5 py-3.5">Estado</th>
-                        <th class="px-5 py-3.5">Notas / Ficha Técnica</th>
+                        <th class="px-5 py-3.5">Notas y Ficha Técnica</th>
                         <th class="px-5 py-3.5 text-right">Acciones</th>
                     </tr>
                 </thead>
@@ -309,7 +309,7 @@
 </div>
 
 <!-- Reutilizar modales de Finalizar, Cancelar y Reprogramar -->
-<!--MODAL: FINALIZAR SERVICIO & NOTAS TÉCNICAS-->
+<!--MODAL: FINALIZAR SERVICIO y NOTAS TÉCNICAS-->
 <div id="modalFinalizar" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-200 my-auto">
         <div class="flex items-center justify-between pb-3.5 border-b border-slate-100">
@@ -323,7 +323,7 @@
 
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wider">
-                    Ficha Técnica / Notas del Corte
+                    Ficha Técnica y Notas del Corte
                 </label>
                 <textarea name="observacion" rows="3" required
                         placeholder="Ej: Degradado medio 0.5 a los lados, tijera arriba, perfilado de barba con toalla caliente..."
@@ -342,11 +342,11 @@
     </div>
 </div>
 
-<!-- ================= MODAL: CANCELAR CITA ================= -->
+<!--MODAL: CANCELAR CITA -->
 <div id="modalCancelar" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-200 my-auto">
         <div class="flex items-center justify-between pb-3.5 border-b border-slate-100">
-            <h3 class="font-bold text-slate-900 font-serif text-xl tracking-tight text-rose-900">Rechazar / Cancelar Cita</h3>
+            <h3 class="font-bold text-slate-900 font-serif text-xl tracking-tight text-rose-900">Rechazar y Cancelar Cita</h3>
             <button onclick="cerrarModalCancelar()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
         <form id="formCancelar" method="POST" class="mt-4 space-y-4">
@@ -355,7 +355,7 @@
             <input type="hidden" name="estado" value="CANCELADA">
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wider">Motivo de Cancelación *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wider">Motivo de Cancelación</label>
                 <textarea name="motivo_cancelacion" rows="3" required placeholder="Ingresa el motivo detallado de la cancelación..."
                         class="w-full text-xs rounded-xl border border-slate-200 bg-slate-50/50 p-3 focus:bg-white focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-400 transition-all placeholder:text-slate-400"></textarea>
             </div>
@@ -383,11 +383,11 @@
             @csrf
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wider">Nueva Fecha *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wider">Nueva Fecha</label>
                     <input type="date" name="nueva_fecha" id="inputNuevaFecha" required class="w-full text-xs rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-400 transition-all">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wider">Nueva Hora *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wider">Nueva Hora</label>
                     <input type="time" name="nueva_hora" id="inputNuevaHora" required class="w-full text-xs rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-400 transition-all">
                 </div>
             </div>

@@ -10,6 +10,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     @vite(['resources/css/app.css'])
     <link rel="stylesheet" href="{{ asset('css/barbershop.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/chat-asistente.css') }}">
     <style>
         body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, p, a, span {
             font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
@@ -372,6 +373,10 @@
             });
         });
     </script>
+
+    {{-- Widget Asistente Virtual con Conexión a WhatsApp Business --}}
+    @include('partials.chat-asistente')
+    <script src="{{ asset('js/chat-asistente.js') }}"></script>
 </body>
 
 </html>

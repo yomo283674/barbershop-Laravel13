@@ -38,7 +38,7 @@
                     <span>Inicio</span>
                 </a>
 
-                <!-- Citas & Agenda -->
+                <!-- Citas y Agenda -->
                 <a href="{{ route('admin.citas.index') }}" 
                 class="flex items-center gap-3.5 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 {{ request()->is('administrador/citas*') ? 'bg-[#17181f] text-amber-400 font-semibold shadow-sm border-l-4 border-amber-400' : 'text-zinc-400 hover:text-white hover:bg-zinc-900/80' }}">
                     <i data-lucide="calendar" class="w-4 h-4 {{ request()->is('administrador/citas*') ? 'text-amber-400' : 'text-zinc-500' }}"></i>
@@ -82,7 +82,7 @@
                     <span class="ml-auto bg-zinc-800 text-zinc-300 text-[10px] px-1.5 py-0.5 rounded-full font-semibold">{{ $adminClientesCount ?? 0 }}</span>
                 </a>
 
-                <!-- Reportes & Auditoría -->
+                <!-- Reportes y Auditoría -->
                 <a href="{{ route('admin.auditoria.index') }}" 
                 class="flex items-center gap-3.5 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 {{ request()->is('administrador/auditoria*') ? 'bg-[#17181f] text-amber-400 font-semibold shadow-sm border-l-4 border-amber-400' : 'text-zinc-400 hover:text-white hover:bg-zinc-900/80' }}">
                     <i data-lucide="shield-check" class="w-4 h-4 {{ request()->is('administrador/auditoria*') ? 'text-amber-400' : 'text-zinc-500' }}"></i>
@@ -113,7 +113,7 @@
                     <span class="ml-auto bg-amber-400/10 text-amber-300 text-[10px] px-1.5 py-0.5 rounded-full font-bold">{{ $misServiciosCount ?? 0 }} activos</span>
                 </a>
 
-                <!-- Mi Agenda / Citas -->
+                <!-- Mi Agenda y Citas -->
                 <a href="{{ route('barbero.citas.index') }}" 
                 class="flex items-center gap-3.5 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 {{ request()->is('barbero/citas*') ? 'bg-[#17181f] text-amber-400 font-semibold shadow-sm border-l-4 border-amber-400' : 'text-zinc-400 hover:text-white hover:bg-zinc-900/80' }}">
                     <i data-lucide="calendar" class="w-4 h-4 {{ request()->is('barbero/citas*') ? 'text-amber-400' : 'text-zinc-500' }}"></i>
@@ -133,14 +133,14 @@
                     @endif
                 </a>
 
-                <!-- Mi Disponibilidad / Horario -->
+                <!-- Mi Disponibilidad y Horario -->
                 <a href="{{ route('barbero.disponibilidad.index') }}" 
                 class="flex items-center gap-3.5 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 {{ request()->is('barbero/disponibilidad*') ? 'bg-[#17181f] text-amber-400 font-semibold shadow-sm border-l-4 border-amber-400' : 'text-zinc-400 hover:text-white hover:bg-zinc-900/80' }}">
                     <i data-lucide="clock" class="w-4 h-4 {{ request()->is('barbero/disponibilidad*') ? 'text-amber-400' : 'text-zinc-500' }}"></i>
                     <span>Mi Horario</span>
                 </a>
 
-                <!-- Mis Comisiones & Rendimiento -->
+                <!-- Mis Comisiones y Rendimiento -->
                 <a href="{{ route('barbero.comisiones.index') }}" 
                 class="flex items-center gap-3.5 px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 {{ request()->is('barbero/comisiones*') ? 'bg-[#17181f] text-amber-400 font-semibold shadow-sm border-l-4 border-amber-400' : 'text-zinc-400 hover:text-white hover:bg-zinc-900/80' }}">
                     <i data-lucide="badge-percent" class="w-4 h-4 {{ request()->is('barbero/comisiones*') ? 'text-amber-400' : 'text-zinc-500' }}"></i>

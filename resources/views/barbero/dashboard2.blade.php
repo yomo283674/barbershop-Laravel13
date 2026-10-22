@@ -261,7 +261,7 @@
                     <button type="button" onclick="abrirModalFinalizar('{{ $turnoEnSilla->cita->id_cita }}', '{{ $turnoEnSilla->cliente->nombre }}', '{{ $turnoEnSilla->cita->servicio->nombre ?? 'Corte' }}')"
                             class="px-5 py-2.5 rounded-xl gold-gradient gold-gradient-hover text-slate-950 font-bold text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-amber-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer">
                         <i data-lucide="check-check" class="w-4 h-4 stroke-[2.5]"></i>
-                        <span>Finalizar Servicio & Registrar Notas</span>
+                        <span>Finalizar Servicio y Registrar Notas</span>
                     </button>
                 </div>
             @else
@@ -281,7 +281,7 @@
                         <h2 class="text-xl sm:text-2xl font-bold font-serif text-white tracking-tight mt-1">Tu puesto de trabajo está listo</h2>
                         <p class="text-xs sm:text-sm text-zinc-400 mt-0.5">
                             @if($siguienteEnEspera)
-                                Hay <span class="text-amber-400 font-semibold">{{ $turnosEnEsperaCount }}</span> cliente(s) en espera. Siguiente: <span class="text-white font-medium underline decoration-amber-400/40 underline-offset-2">{{ $siguienteEnEspera->cliente->nombre }}</span> (Turno #{{ $siguienteEnEspera->posicion }}).
+                                Hay <span class="text-amber-400 font-semibold">{{ $turnosEnEsperaCount }}</span> clientes en espera. Siguiente: <span class="text-white font-medium underline decoration-amber-400/40 underline-offset-2">{{ $siguienteEnEspera->cliente->nombre }}</span> (Turno #{{ $siguienteEnEspera->posicion }}).
                             @else
                                 No tienes clientes en sala de espera en este momento. Puesto libre para recibir turnos.
                             @endif
@@ -563,7 +563,7 @@
 
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase mb-1">
-                    Ficha Técnica / Notas del Corte (Preferencias del Cliente)
+                    Ficha Técnica o Notas del Corte
                 </label>
                 <textarea name="observacion" rows="3" required
                         placeholder="Ej: Degradado medio 0.5 a los lados, tijera arriba, perfilado de barba con toalla caliente y navaja. Usa cera mate."
@@ -604,7 +604,7 @@
             <input type="hidden" name="estado" value="CANCELADA">
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Motivo de Cancelación *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Motivo de Cancelación</label>
                 <textarea name="motivo_cancelacion" rows="3" required
                         placeholder="Ej: Cliente solicitó cancelar vía telefónica por calamidad doméstica..."
                         class="w-full text-xs rounded-xl border border-slate-300 p-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-500/30 focus:border-rose-500"></textarea>
@@ -633,12 +633,12 @@
 
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nueva Fecha *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nueva Fecha</label>
                     <input type="date" name="nueva_fecha" id="inputNuevaFecha" required
                         class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nueva Hora *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nueva Hora</label>
                     <input type="time" name="nueva_hora" id="inputNuevaHora" required
                         class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
                 </div>

@@ -12,7 +12,7 @@
         <div class="relative z-10">
             <div class="flex items-center gap-2 mb-1.5">
                 <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-sans">Comunidad & Fidelización</span>
+                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-sans">Comunidad y Fidelización</span>
             </div>
             <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 font-serif">
                 Directorio de Clientes
@@ -101,7 +101,7 @@
             <div>
                 <!-- Tier 1: Header de Categoría & Icono Elevado -->
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-sans">Frecuentes & VIP</span>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-sans">Frecuentes y VIP</span>
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-100 to-yellow-100/80 border border-amber-300/80 text-amber-700 flex items-center justify-center shadow-2xs group-hover:scale-110 group-hover:rotate-2 transition-transform duration-300">
                         <i data-lucide="crown" class="w-5 h-5 stroke-[1.9] text-amber-600"></i>
                     </div>
@@ -489,30 +489,30 @@
             @csrf
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre Completo *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre Completo</label>
                 <input type="text" name="nombre" required placeholder="Ej: Camilo Andrés Martínez" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Correo Electrónico *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Correo Electrónico</label>
                 <input type="email" name="email" required placeholder="camilo@cliente.com" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Teléfono Móvil</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Teléfono</label>
                     <input type="text" name="telefono" placeholder="310 123 4567" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cédula / Documento</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cédula o Documento</label>
                     <input type="text" name="numero_identificacion" placeholder="1020304050" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                 </div>
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estado Inicial *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estado Inicial</label>
                 <select name="estado" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium cursor-pointer">
-                    <option value="ACTIVO">Activo (Habilitado para agendar citas)</option>
+                    <option value="ACTIVO">Activo</option>
                     <option value="INACTIVO">Inactivo</option>
                 </select>
             </div>
@@ -552,12 +552,12 @@
             @method('PUT')
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre Completo *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre Completo</label>
                 <input type="text" name="nombre" id="edit_cliente_nombre" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Correo Electrónico *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Correo Electrónico</label>
                 <input type="email" name="email" id="edit_cliente_email" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
@@ -567,13 +567,13 @@
                     <input type="text" name="telefono" id="edit_cliente_telefono" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cédula / Documento</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cédula o Documento</label>
                     <input type="text" name="numero_identificacion" id="edit_cliente_identificacion" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                 </div>
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estado *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estado    </label>
                 <select name="estado" id="edit_cliente_estado" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium cursor-pointer">
                     <option value="ACTIVO">Activo</option>
                     <option value="INACTIVO">Inactivo</option>
@@ -613,7 +613,7 @@
         <div id="historialContenido" class="mt-5 space-y-3 min-h-[160px]">
             <div class="py-12 text-center text-slate-400">
                 <i data-lucide="loader" class="w-6 h-6 animate-spin mx-auto text-amber-500 mb-2"></i>
-                <p class="text-xs font-medium">Cargando historial de citas...</p>
+                <p class="text-xs font-medium">Cargando historial de citas</p>
             </div>
         </div>
 

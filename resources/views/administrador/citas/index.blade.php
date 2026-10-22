@@ -203,7 +203,7 @@
                             </div>
                         </div>
 
-                        <!-- Columna 2: Barbero & Servicio -->
+                        <!-- Columna 2: Barbero y Servicio -->
                         <div class="flex items-center gap-2.5 flex-wrap text-xs">
                             <!-- Barbero -->
                             <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200/80 font-semibold text-slate-700">
@@ -385,9 +385,9 @@
 
             <!-- Cliente -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cliente *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cliente</label>
                 <select name="id_cliente" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
-                    <option value="">Selecciona cliente...</option>
+                    <option value="">Selecciona un cliente</option>
                     @foreach($clientes as $cli)
                         <option value="{{ $cli->id_usuario }}">{{ $cli->nombre }} (CC: {{ $cli->numero_identificacion ?? 'N/A' }})</option>
                     @endforeach
@@ -396,9 +396,9 @@
 
             <!-- Barbero -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Barbero *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Barbero</label>
                 <select name="id_barbero" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
-                    <option value="">Selecciona barbero...</option>
+                    <option value="">Selecciona un barbero</option>
                     @foreach($barberos as $bar)
                         <option value="{{ $bar->id_usuario }}">{{ $bar->nombre }} - {{ $bar->especialidad ?? 'Especialista' }}</option>
                     @endforeach
@@ -407,9 +407,9 @@
 
             <!-- Servicio -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Servicio *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Servicio</label>
                 <select name="id_servicio" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
-                    <option value="">Selecciona servicio...</option>
+                    <option value="">Selecciona servicio</option>
                     @foreach($servicios as $srv)
                         <option value="{{ $srv->id_servicio }}">{{ $srv->nombre }} - ${{ number_format($srv->precio, 0) }} ({{ $srv->duracion_min }} min)</option>
                     @endforeach
@@ -419,11 +419,11 @@
             <!-- Fecha y Hora -->
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Fecha *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Fecha</label>
                     <input type="date" name="fecha" value="{{ now()->toDateString() }}" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-semibold">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hora *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hora</label>
                     <input type="time" name="hora" value="10:00" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-semibold">
                 </div>
             </div>
@@ -479,7 +479,7 @@
 
             <!-- Barbero -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Barbero *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Barbero</label>
                 <select name="id_barbero" id="edit_id_barbero" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                     @foreach($barberos as $bar)
                         <option value="{{ $bar->id_usuario }}">{{ $bar->nombre }}</option>
@@ -489,7 +489,7 @@
 
             <!-- Servicio -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Servicio *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Servicio</label>
                 <select name="id_servicio" id="edit_id_servicio" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                     @foreach($servicios as $srv)
                         <option value="{{ $srv->id_servicio }}">{{ $srv->nombre }} - ${{ number_format($srv->precio, 0) }}</option>
@@ -500,18 +500,18 @@
             <!-- Fecha y Hora -->
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Fecha *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Fecha</label>
                     <input type="date" name="fecha" id="edit_fecha" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-semibold">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hora *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hora</label>
                     <input type="time" name="hora" id="edit_hora" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-semibold">
                 </div>
             </div>
 
             <!-- Estado -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estado *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estado</label>
                 <select name="estado" id="edit_estado" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                     <option value="ACEPTADA">ACEPTADA</option>
                     <option value="PENDIENTE">PENDIENTE</option>
@@ -573,7 +573,7 @@
             </p>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Motivo de Cancelación *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Motivo de Cancelación</label>
                 <textarea name="motivo_cancelacion" required rows="3" placeholder="Ej: Cliente canceló por inconveniente personal..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-rose-500 transition-all font-medium"></textarea>
             </div>
 

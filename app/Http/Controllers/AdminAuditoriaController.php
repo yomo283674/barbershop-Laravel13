@@ -57,7 +57,7 @@ class AdminAuditoriaController extends Controller
         $logsExitosos = Auditoria::where('resultado', 'EXITO')->count();
         $entidadesModificadas = Auditoria::distinct('entidad_afectada')->count('entidad_afectada');
 
-        // 2. Reportes Ejecutivos & Business Intelligence
+        // 2. Reportes Ejecutivos y Business Intelligence
         $reportes = Reporte::with('generador')->orderBy('fecha_generacion', 'desc')->get();
 
         $citasPorEstado = Cita::select('estado', DB::raw('count(*) as total'))

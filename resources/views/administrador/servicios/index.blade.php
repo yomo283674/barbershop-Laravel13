@@ -30,7 +30,6 @@
 
             <button type="button" onclick="openModal('modalNuevoServicio')" 
                     class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider text-slate-950 gold-gradient gold-gradient-hover shadow-md hover:shadow-lg transition-all cursor-pointer shrink-0">
-                <i data-lucide="plus" class="w-4 h-4"></i>
                 <span>Nuevo Servicio</span>
             </button>
         </div>
@@ -144,7 +143,7 @@
     <!-- Barra de Pestañas de Categoría (Segmented Pills para Navegación Rápida) -->
     <div class="flex items-center gap-1.5 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200/70 overflow-x-auto max-w-full text-xs font-semibold">
         <a href="{{ route('admin.servicios.index', request()->except('categoria', 'page')) }}" 
-           class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 {{ !request('categoria') || request('categoria') === 'TODAS' ? 'bg-white text-slate-950 font-bold shadow-xs border border-slate-200/80' : 'text-slate-600 hover:text-slate-900 hover:bg-white/60' }}">
+        class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 {{ !request('categoria') || request('categoria') === 'TODAS' ? 'bg-white text-slate-950 font-bold shadow-xs border border-slate-200/80' : 'text-slate-600 hover:text-slate-900 hover:bg-white/60' }}">
             <i data-lucide="layers" class="w-3.5 h-3.5 {{ !request('categoria') || request('categoria') === 'TODAS' ? 'text-amber-600' : 'text-slate-400' }}"></i>
             <span>Todas las Categorías</span>
             <span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold font-arial {{ !request('categoria') || request('categoria') === 'TODAS' ? 'bg-slate-900 text-white' : 'bg-slate-200 text-slate-600' }}">
@@ -157,7 +156,7 @@
                 $catActiva = request('categoria') == $cat->id_categoria;
             @endphp
             <a href="{{ route('admin.servicios.index', array_merge(request()->except('page'), ['categoria' => $cat->id_categoria])) }}" 
-               class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 {{ $catActiva ? 'bg-white text-amber-900 font-bold shadow-xs border border-amber-300' : 'text-slate-600 hover:text-slate-900 hover:bg-white/60' }}">
+            class="px-3.5 py-2 rounded-xl transition-all whitespace-nowrap flex items-center gap-1.5 {{ $catActiva ? 'bg-white text-amber-900 font-bold shadow-xs border border-amber-300' : 'text-slate-600 hover:text-slate-900 hover:bg-white/60' }}">
                 <span class="w-1.5 h-1.5 rounded-full {{ $catActiva ? 'bg-amber-500 animate-pulse' : 'bg-amber-400' }}"></span>
                 <span>{{ $cat->nombre }}</span>
                 <span class="px-1.5 py-0.5 rounded-md text-[10px] font-bold font-arial {{ $catActiva ? 'bg-amber-100 text-amber-900 border border-amber-200' : 'bg-slate-200 text-slate-600' }}">
@@ -245,12 +244,12 @@
                                 <!-- Columna 1: Imagen del Servicio + Nombre + Descripción -->
                                 <div class="flex items-center gap-3.5 min-w-0 md:w-5/12">
                                     <div class="relative w-12 h-12 rounded-2xl overflow-hidden shrink-0 border border-slate-200/90 group-hover:border-amber-400/60 shadow-2xs group-hover:scale-105 transition-all duration-300 bg-slate-900 flex items-center justify-center cursor-pointer"
-                                         @if($servicio->imagen) onclick="verFotoServicio('{{ asset($servicio->imagen) }}', '{{ addslashes($servicio->nombre) }}')" title="Clic para ampliar foto" @endif>
+                                        @if($servicio->imagen) onclick="verFotoServicio('{{ asset($servicio->imagen) }}', '{{ addslashes($servicio->nombre) }}')" title="Clic para ampliar foto" @endif>
                                         @if($servicio->imagen)
                                             <img src="{{ asset($servicio->imagen) }}" 
                                                 alt="{{ $servicio->nombre }}" 
                                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                                 loading="lazy">
+                                                loading="lazy">
                                             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
                                                 <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-white drop-shadow-md"></i>
                                             </div>
@@ -461,7 +460,7 @@
                         <div class="mt-6 flex flex-wrap items-center justify-center gap-2.5">
                             @if(request()->hasAny(['buscar', 'categoria', 'estado']))
                                 <a href="{{ route('admin.servicios.index') }}" 
-                                   class="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors shadow-2xs flex items-center gap-1.5">
+                                class="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors shadow-2xs flex items-center gap-1.5">
                                     <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
                                     <span>Limpiar Filtros</span>
                                 </a>
@@ -497,7 +496,7 @@
                     <div class="inline-flex items-center bg-slate-100/90 p-1 rounded-2xl border border-slate-200/70">
                         @foreach([6, 8, 12, 16] as $cant)
                             <a href="{{ request()->fullUrlWithQuery(['per_page' => $cant, 'page' => 1]) }}"
-                               class="px-2.5 py-1 rounded-xl text-xs font-arial transition-all {{ request('per_page', 8) == $cant ? 'bg-white text-slate-950 font-bold shadow-xs border border-slate-200/80' : 'text-slate-500 hover:text-slate-900 hover:bg-white/60 font-semibold' }}">
+                            class="px-2.5 py-1 rounded-xl text-xs font-arial transition-all {{ request('per_page', 8) == $cant ? 'bg-white text-slate-950 font-bold shadow-xs border border-slate-200/80' : 'text-slate-500 hover:text-slate-900 hover:bg-white/60 font-semibold' }}">
                                 {{ $cant }}
                             </a>
                         @endforeach
@@ -518,7 +517,7 @@
 
 </div>
 
-<!-- ================= MODALES ================= -->
+<!--MODALES -->
 
 <!-- 1. Modal Nuevo Servicio -->
 <div id="modalNuevoServicio" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
@@ -529,8 +528,8 @@
                     <i data-lucide="plus-circle" class="w-5 h-5 text-amber-600"></i>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-slate-900 font-serif">Nuevo Servicio en Carta</h3>
-                    <p class="text-xs text-slate-400">Crear y publicar nuevo procedimiento o tarifa</p>
+                    <h3 class="text-lg font-bold text-slate-900 font-serif">Nuevo Servicio</h3>
+                    <p class="text-xs text-slate-400">Crea e integra un Nuevo Servicio</p>
                 </div>
             </div>
             <button type="button" onclick="closeModal('modalNuevoServicio')" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition-colors">
@@ -543,7 +542,7 @@
 
             <!-- Foto del Servicio -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Foto / Imagen del Servicio (Opcional)</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Foto o Imagen del Servicio</label>
                 <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center gap-3.5">
                     <div id="crearImgWrapper" class="w-16 h-16 rounded-xl bg-white border border-slate-200/80 flex items-center justify-center overflow-hidden shrink-0 shadow-2xs relative">
                         <div id="crearImgPlaceholder" class="flex flex-col items-center justify-center text-slate-400 text-center px-1">
@@ -569,13 +568,13 @@
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre del Servicio *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre del Servicio</label>
                 <input type="text" name="nombre" required placeholder="Ej: Corte Degradado + Barba Express" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Categoría *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Categoría</label>
                     <select name="id_categoria" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium cursor-pointer">
                         @foreach($categorias as $cat)
                             <option value="{{ $cat->id_categoria }}">{{ $cat->nombre }}</option>
@@ -583,7 +582,7 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estado *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estado</label>
                     <select name="estado" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium cursor-pointer">
                         <option value="ACTIVO">ACTIVO</option>
                         <option value="INACTIVO">INACTIVO</option>
@@ -593,17 +592,17 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Precio ($ COP) *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Precio</label>
                     <input type="number" step="1000" name="precio" required placeholder="35000" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Duración (Minutos) *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Duración (Minutos)</label>
                     <input type="number" step="5" min="5" max="240" name="duracion_min" required value="45" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                 </div>
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Barbero Especialista (Opcional)</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Barbero Especialista</label>
                 <select name="id_barbero" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium cursor-pointer">
                     <option value="">Disponible para cualquier barbero</option>
                     @foreach($barberos as $b)
@@ -653,7 +652,7 @@
 
             <!-- Foto del Servicio en Edición -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Foto / Imagen del Servicio</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Imagen del Servicio</label>
                 <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center gap-3.5">
                     <div id="editImgWrapper" class="w-16 h-16 rounded-xl bg-white border border-slate-200/80 flex items-center justify-center overflow-hidden shrink-0 shadow-2xs relative">
                         <div id="editImgPlaceholder" class="flex flex-col items-center justify-center text-slate-400 text-center px-1">
@@ -679,13 +678,13 @@
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre del Servicio *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre del Servicio</label>
                 <input type="text" name="nombre" id="edit_servicio_nombre" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Categoría *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Categoría</label>
                     <select name="id_categoria" id="edit_servicio_categoria" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium cursor-pointer">
                         @foreach($categorias as $cat)
                             <option value="{{ $cat->id_categoria }}">{{ $cat->nombre }}</option>
@@ -693,7 +692,7 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estado *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Estado</label>
                     <select name="estado" id="edit_servicio_estado" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium cursor-pointer">
                         <option value="ACTIVO">ACTIVO</option>
                         <option value="INACTIVO">INACTIVO</option>
@@ -703,11 +702,11 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Precio ($ COP) *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Precio</label>
                     <input type="number" step="1000" name="precio" id="edit_servicio_precio" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Duración (Minutos) *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Duración Minutos</label>
                     <input type="number" step="5" min="5" max="240" name="duracion_min" id="edit_servicio_duracion" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                 </div>
             </div>
@@ -761,12 +760,12 @@
             @csrf
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre de la Categoría *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre de la Categoría</label>
                 <input type="text" name="nombre" required placeholder="Ej: Tratamientos Capilares VIP" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Descripción (Opcional)</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Descripción</label>
                 <input type="text" name="descripcion" placeholder="Ej: Servicios de estética y exfoliación facial" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
             </div>
 

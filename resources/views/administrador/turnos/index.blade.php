@@ -99,7 +99,7 @@
                             En Atención Ahora
                         </span>
                         <span class="text-xs bg-emerald-500/20 text-emerald-300 px-3 py-1 rounded-full font-bold border border-emerald-500/30">
-                            Silla Activa #1
+                            Silla Activa
                         </span>
                     </div>
 
@@ -261,7 +261,7 @@
                 </div>
                 <div class="mt-4">
                     <h3 class="text-3xl font-extrabold text-emerald-600 tracking-tight font-arial">{{ $turnosEnAtencion }}</h3>
-                    <p class="text-xs text-slate-400 mt-1">Actualmente en corte / silla</p>
+                    <p class="text-xs text-slate-400 mt-1">Actualmente en silla</p>
                 </div>
                 <div class="absolute bottom-0 left-0 right-0 h-1 bg-emerald-500"></div>
             </div>
@@ -373,7 +373,7 @@
                                 @else
                                     <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200/70 font-semibold text-slate-700">
                                         <i data-lucide="user" class="w-3.5 h-3.5 text-slate-500"></i>
-                                        <span>Turno Presencial (Walk-in)</span>
+                                        <span>Turno Presencial</span>
                                     </span>
                                 @endif
 
@@ -542,9 +542,9 @@
 
                 <!-- Cliente -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cliente en Sala *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cliente en Sala</label>
                     <select name="id_cliente" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
-                        <option value="">Selecciona cliente...</option>
+                        <option value="">Selecciona cliente</option>
                         @foreach($clientes as $cli)
                             <option value="{{ $cli->id_usuario }}">{{ $cli->nombre }} (CC: {{ $cli->numero_identificacion ?? 'N/A' }})</option>
                         @endforeach
@@ -553,7 +553,7 @@
 
                 <!-- Cita Vinculada (Opcional) -->
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Vincular a Cita de Hoy (Opcional)</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Vincular a Cita de Hoy</label>
                     <select name="id_cita" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium">
                         <option value="">Sin cita previa (Cliente presencial directo)</option>
                         @foreach($citasHoySinTurno as $c)

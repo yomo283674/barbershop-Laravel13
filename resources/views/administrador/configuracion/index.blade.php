@@ -44,7 +44,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre Comercial del Negocio *</label>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nombre Comercial del Negocio</label>
                         <input type="text" 
                             name="nombre_negocio" 
                             value="{{ old('nombre_negocio', $config->nombre_negocio) }}" 
@@ -69,14 +69,14 @@
                         <i data-lucide="clock" class="w-5 h-5"></i>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900">Horarios de Atención & Agenda</h3>
+                        <h3 class="text-base font-bold text-slate-900">Horarios de Atención y Agenda</h3>
                         <p class="text-xs text-slate-400">Determina el rango de citas que los clientes pueden agendar en línea.</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Horario de Apertura *</label>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Horario de Apertura</label>
                         <input type="time" 
                             name="horario_apertura" 
                             value="{{ old('horario_apertura', substr($config->horario_apertura, 0, 5)) }}" 
@@ -86,7 +86,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Horario de Cierre *</label>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Horario de Cierre</label>
                         <input type="time" 
                             name="horario_cierre" 
                             value="{{ old('horario_cierre', substr($config->horario_cierre, 0, 5)) }}" 
@@ -96,7 +96,7 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Duración Estándar de Cita *</label>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Duración Estándar de Cita</label>
                         <div class="relative">
                             <input type="number" 
                                 min="15" 
@@ -127,7 +127,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Tiempo Límite Cancelación *</label>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Tiempo Límite Cancelación</label>
                         <div class="relative">
                             <input type="number" 
                                 min="0" 

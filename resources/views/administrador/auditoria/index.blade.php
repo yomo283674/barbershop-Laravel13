@@ -10,10 +10,6 @@
     <div class="relative overflow-hidden flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/80 shadow-xs">
         <div class="absolute -right-8 -bottom-8 w-36 h-36 rounded-full bg-amber-500/5 blur-2xl pointer-events-none"></div>
         <div class="relative z-10">
-            <div class="flex items-center gap-2 mb-1.5">
-                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-sans">Seguridad & Business Intelligence</span>
-            </div>
             <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 font-serif">
                 Auditoría y Inteligencia de Negocio
             </h1>
@@ -41,7 +37,7 @@
         <a href="{{ route('admin.auditoria.index', ['tab' => 'reportes']) }}" 
         class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all {{ $tab === 'reportes' ? 'bg-[#182032] text-amber-400 shadow-xs border border-slate-800' : 'text-slate-500 hover:text-slate-900 hover:bg-white/60' }}">
             <i data-lucide="bar-chart-3" class="w-4 h-4 {{ $tab === 'reportes' ? 'text-amber-400' : 'text-slate-400' }}"></i>
-            <span>Reportes & Rendimiento</span>
+            <span>Reportes y Rendimiento</span>
             <span class="px-2 py-0.5 rounded-full text-[10px] font-arial font-bold {{ $tab === 'reportes' ? 'bg-amber-400/20 text-amber-300' : 'bg-slate-200 text-slate-600' }}">{{ $reportes->count() }}</span>
         </a>
     </div>
@@ -88,7 +84,7 @@
                 <div class="absolute -right-8 -top-8 w-24 h-24 rounded-full bg-amber-500/10 blur-xl pointer-events-none group-hover:scale-125 transition-transform duration-500"></div>
 
                 <div>
-                    <!-- Tier 1: Header de Categoría & Icono Elevado -->
+                    <!-- Tier 1: Header de Categoría y Icono Elevado -->
                     <div class="flex items-center justify-between">
                         <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-sans">Actividad Hoy</span>
                         <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-100 to-yellow-100/80 border border-amber-300/80 text-amber-700 flex items-center justify-center shadow-2xs group-hover:scale-110 group-hover:rotate-2 transition-transform duration-300">
@@ -415,7 +411,7 @@
         </div>
 
     @else
-        <!-- ================= PESTAÑA 2: REPORTES & BUSINESS INTELLIGENCE ================= -->
+        <!--PESTAÑA 2: REPORTES & BUSINESS INTELLIGENCE-->
 
         <!-- 4 Métricas de Rendimiento VIP -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -696,7 +692,7 @@
 
 </div>
 
-<!-- ================= MODALES VIP ================= -->
+<!--MODALES VIP-->
 
 <!-- 1. Modal Generar Reporte -->
 <div id="modalGenerarReporte" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
@@ -720,7 +716,7 @@
             @csrf
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Tipo de Reporte *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Tipo de Reporte</label>
                 <select name="tipo_reporte" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:bg-white outline-none focus:ring-2 focus:ring-amber-400 transition-all font-medium cursor-pointer">
                     <option value="RESUMEN_EJECUTIVO">Resumen Ejecutivo General</option>
                     <option value="FINANCIERO_VENTAS">Financiero y Ventas de Servicios</option>

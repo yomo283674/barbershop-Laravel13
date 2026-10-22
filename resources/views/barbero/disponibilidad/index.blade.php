@@ -296,27 +296,27 @@
 
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hora Inicio *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hora Inicio</label>
                     <input type="time" name="hora_inicio" required value="13:00"
                         class="w-full text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:bg-white transition-all">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hora Fin *</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hora Fin</label>
                     <input type="time" name="hora_fin" required value="14:00"
                         class="w-full text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:bg-white transition-all">
                 </div>
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Tipo de Registro *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Tipo de Registro</label>
                 <select name="disponible" required class="w-full text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:bg-white transition-all">
-                    <option value="0">Bloqueo por Descanso / Almuerzo / Pausa (No disponible)</option>
-                    <option value="1">Jornada Especial Habilitada (Disponible)</option>
+                    <option value="0">Bloqueo por Descanso / Almuerzo / Pausa</option>
+                    <option value="1">Jornada Especial Habilitada</option>
                 </select>
             </div>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Motivo (Opcional)</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Motivo</label>
                 <input type="text" name="motivo" placeholder="Ej: Almuerzo, cita médica, descanso personal..."
                     class="w-full text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:bg-white transition-all">
             </div>

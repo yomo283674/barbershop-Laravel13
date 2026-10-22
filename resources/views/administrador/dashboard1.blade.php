@@ -389,7 +389,7 @@
                             @if(!$esHoy)
                                 <div class="mt-5">
                                     <a href="{{ route('admin.dashboard1') }}" 
-                                       class="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors inline-flex items-center gap-1.5">
+                                    class="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors inline-flex items-center gap-1.5">
                                         <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
                                         <span>Ir a Hoy</span>
                                     </a>
@@ -616,7 +616,7 @@
             </p>
 
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Motivo de Cancelación *</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Motivo de Cancelación</label>
                 <textarea name="motivo_cancelacion" required rows="3" placeholder="Ej: Cliente canceló por llamada telefónica..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-rose-500 transition-all font-medium"></textarea>
             </div>
 

@@ -64,7 +64,7 @@ class AdminBarberoController extends Controller
     }
 
     /**
-     * Registra un nuevo barbero en el sistema.
+     * Guarda un nuevo barbero en el sistema.
      */
     public function store(Request $request)
     {
