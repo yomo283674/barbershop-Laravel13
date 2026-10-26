@@ -49,6 +49,32 @@
             box-shadow: 0 4px 16px 0 rgba(197, 160, 89, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
             transform: translateY(-0.5px);
         }
+        .btn-barber-gold {
+            background: linear-gradient(135deg, #d8ba78 0%, #c5a059 50%, #ab873e 100%) !important;
+            color: #0f1015 !important;
+            border: 1px solid rgba(197, 160, 89, 0.6) !important;
+            box-shadow: 0 4px 14px -2px rgba(197, 160, 89, 0.4) !important;
+            font-weight: 700 !important;
+        }
+        .btn-barber-gold:hover {
+            background: linear-gradient(135deg, #e0c484 0%, #cfa85f 50%, #b58f43 100%) !important;
+            box-shadow: 0 6px 18px 0 rgba(197, 160, 89, 0.55) !important;
+            color: #000000 !important;
+            transform: translateY(-0.5px);
+        }
+        .btn-barber-dark {
+            background-color: #14151b !important;
+            color: #f8fafc !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 4px 14px -2px rgba(15, 16, 21, 0.35) !important;
+            font-weight: 600 !important;
+        }
+        .btn-barber-dark:hover {
+            background-color: #20222d !important;
+            border-color: rgba(197, 160, 89, 0.5) !important;
+            color: #d4b26f !important;
+            transform: translateY(-0.5px);
+        }
         #mainSidebar {
             transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -272,20 +298,24 @@
                 closeSettingsMenu();
             }
 
-            const swalWithBootstrapButtons = Swal.mixin({
+            const swalBarbershop = Swal.mixin({
                 customClass: {
-                    confirmButton: "btn btn-success",
-                    cancelButton: "btn btn-danger"
+                    popup: "rounded-3xl border border-stone-200/90 shadow-2xl p-6",
+                    title: "font-serif text-slate-900 font-bold text-xl",
+                    htmlContainer: "text-slate-600 text-sm",
+                    confirmButton: "btn btn-barber-gold",
+                    cancelButton: "btn btn-barber-dark"
                 },
                 buttonsStyling: false,
                 heightAuto: false
             });
 
-            swalWithBootstrapButtons.fire({
+            swalBarbershop.fire({
                 position: "center",
                 title: "¿Cerrar sesión?",
                 text: "¿Estás seguro de que deseas finalizar tu sesión actual?",
                 icon: "warning",
+                iconColor: "#c5a059",
                 showCancelButton: true,
                 confirmButtonText: "Sí, cerrar sesión",
                 cancelButtonText: "No, cancelar",

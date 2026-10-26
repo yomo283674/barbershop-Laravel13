@@ -207,10 +207,6 @@
                     <i data-lucide="user-check" class="w-3.5 h-3.5 text-blue-600"></i>
                     Tus Datos Registrados
                 </span>
-                <button type="button" onclick="openModalPerfil()" class="text-[11px] font-bold text-blue-700 hover:text-blue-950 flex items-center gap-1 cursor-pointer transition-colors">
-                    <span>Editar</span>
-                    <i data-lucide="edit-3" class="w-3 h-3"></i>
-                </button>
             </div>
             <div class="mt-3 space-y-1.5">
                 <div class="flex items-center gap-2 text-xs text-blue-950 bg-blue-50/60 p-2 rounded-xl border border-blue-200/70">

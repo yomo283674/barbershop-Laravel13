@@ -1,6 +1,6 @@
 <header class="h-16 bg-white border-b border-slate-200/80 px-3 sm:px-6 lg:px-8 flex items-center justify-between shrink-0 sticky top-0 z-30 transition-all">
-    <!-- Left Section: Mobile Menu Toggle & Search Input -->
-    <div class="flex items-center gap-2 sm:gap-3 flex-1 max-w-md min-w-0 mr-2 sm:mr-0">
+    <!-- Left Section: Mobile Menu Toggle -->
+    <div class="flex items-center gap-2 sm:gap-3">
         <!-- Botón Móvil: Abrir Barra Lateral -->
         <button type="button" 
                 onclick="toggleSidebar()" 
@@ -9,39 +9,10 @@
                 aria-label="Abrir menú de navegación">
             <i data-lucide="menu" class="w-4 h-4 sm:w-5 sm:h-5"></i>
         </button>
-
-        @php
-            $searchRoute = route('admin.citas.index');
-            if (Auth::check() && Auth::user()->esBarbero()) {
-                $searchRoute = route('barbero.citas.index');
-            } elseif (Auth::check() && Auth::user()->esCliente()) {
-                $searchRoute = route('cliente.dashboard3');
-            }
-        @endphp
-        <form method="GET" action="{{ $searchRoute }}" class="relative w-full min-w-0">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 sm:pl-3.5 pointer-events-none text-slate-400">
-                <i data-lucide="search" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
-            </span>
-            <input type="text" 
-                name="buscar"
-                value="{{ request('buscar') }}"
-                placeholder="Buscar citas, clientes, turnos..." 
-                class="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-1.5 sm:py-2 bg-slate-100/80 hover:bg-slate-100 focus:bg-white border border-slate-200 focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/15 rounded-xl text-xs sm:text-sm text-slate-800 placeholder-slate-400 placeholder:truncate transition-all outline-none">
-        </form>
     </div>
 
-    <!-- Right Section: Quick CTA, Notifications, Settings & User Profile -->
-    <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-
-        <!-- Notification Bell -->
-        <div class="relative">
-            <button type="button" 
-                    class="relative w-9 h-9 rounded-xl flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200/70 transition-all cursor-pointer" 
-                    title="Notificaciones">
-                <i data-lucide="bell" class="w-4 h-4"></i>
-                <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-white"></span>
-            </button>
-        </div>
+    <!-- Right Section: Quick CTA, Settings & User Profile -->
+    <div class="flex items-center gap-2 sm:gap-3 shrink-0 ml-auto">
 
         <!-- Settings Icon -->
         <button type="button" 

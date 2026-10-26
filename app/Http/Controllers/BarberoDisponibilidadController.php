@@ -74,7 +74,7 @@ class BarberoDisponibilidadController extends Controller
             'observacion' => $validated['motivo'] ?? null,
         ]);
 
-        return back()->with('success', 'Franja de horario actualizada exitosamente.');
+        return back()->with('Franja de horario actualizada exitosamente.');
     }
 
     /**
@@ -85,7 +85,7 @@ class BarberoDisponibilidadController extends Controller
         $user = Auth::user();
 
         if ($disponibilidad->id_barbero != $user->id_usuario) {
-            return back()->with('error', 'Acción no permitida.');
+            return back()->with('Acción no permitida.');
         }
 
         $disponibilidad->delete();
@@ -99,6 +99,6 @@ class BarberoDisponibilidadController extends Controller
             'observacion' => null,
         ]);
 
-        return back()->with('success', 'Franja horaria liberada exitosamente.');
+        return back()->with('Franja horaria liberada exitosamente.');
     }
 }

@@ -158,6 +158,6 @@ class AdminAuditoriaController extends Controller
         ]);
 
         return redirect()->route('admin.auditoria.index', ['tab' => 'reportes'])
-            ->with('success', "¡Reporte ejecutivo '{$reporte->tipo_reporte}' generado exitosamente!");
+            ->with("¡Reporte ejecutivo '{$reporte->tipo_reporte}' generado exitosamente!");
     }
 }

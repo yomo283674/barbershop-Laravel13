@@ -106,7 +106,7 @@ class AdminClienteController extends Controller
         ]);
 
         return redirect()->route('admin.clientes.index')
-            ->with('success', "¡Cliente '{$cliente->nombre}' registrado exitosamente!");
+            ->with("¡Cliente '{$cliente->nombre}' registrado exitosamente!");
     }
 
     /**

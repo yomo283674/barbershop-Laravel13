@@ -78,6 +78,6 @@ class AdminConfiguracionController extends Controller
         ]);
 
         return redirect()->route('admin.configuracion.index')
-            ->with('success', '¡Configuración del sistema y reglas de negocio actualizadas con éxito!');
+            ->with('¡Configuración del sistema y reglas de negocio actualizadas con éxito!');
     }
 }

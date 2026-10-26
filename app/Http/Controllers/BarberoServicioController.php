@@ -105,7 +105,7 @@ class BarberoServicioController extends Controller
         ]);
 
         return redirect()->route('barbero.servicios.index')
-            ->with('success', "¡Servicio '{$servicio->nombre}' publicado en tu portafolio exitosamente!");
+            ->with("¡Servicio '{$servicio->nombre}' publicado en tu portafolio exitosamente!");
     }
 
     /**
@@ -118,7 +118,7 @@ class BarberoServicioController extends Controller
         // Validar que el servicio pertenezca al barbero autenticado
         if ($servicio->id_barbero != $user->id_usuario) {
             return redirect()->route('barbero.servicios.index')
-                ->with('error', 'No tienes permiso para modificar un servicio que no te pertenece.');
+                ->with('No tienes permiso para modificar un servicio que no te pertenece.');
         }
 
         $validated = $request->validate([
@@ -153,7 +153,7 @@ class BarberoServicioController extends Controller
         ]);
 
         return redirect()->route('barbero.servicios.index')
-            ->with('success', "Servicio '{$servicio->nombre}' actualizado con éxito.");
+            ->with("Servicio '{$servicio->nombre}' actualizado con éxito.");
     }
 
     /**
@@ -164,7 +164,7 @@ class BarberoServicioController extends Controller
         $user = Auth::user();
 
         if ($servicio->id_barbero != $user->id_usuario) {
-            return back()->with('error', 'Acción no permitida.');
+            return back()->with('Acción no permitida.');
         }
 
         if ($servicio->imagen && str_starts_with($servicio->imagen, '/storage/servicios/')) {

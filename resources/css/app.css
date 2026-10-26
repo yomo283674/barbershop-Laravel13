@@ -60,6 +60,35 @@ body, html {
     background-color: #e11d48;
 }
 
+/* SweetAlert2 Barbershop Custom Buttons */
+.btn-barber-gold {
+    background: linear-gradient(135deg, #d8ba78 0%, #c5a059 50%, #ab873e 100%);
+    color: #0f1015;
+    border: 1px solid rgba(197, 160, 89, 0.6);
+    box-shadow: 0 4px 14px -2px rgba(197, 160, 89, 0.4);
+    font-weight: 700;
+}
+.btn-barber-gold:hover {
+    background: linear-gradient(135deg, #e0c484 0%, #cfa85f 50%, #b58f43 100%);
+    box-shadow: 0 6px 18px 0 rgba(197, 160, 89, 0.55);
+    color: #000000;
+    transform: translateY(-0.5px);
+}
+
+.btn-barber-dark {
+    background-color: #14151b;
+    color: #f8fafc;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 14px -2px rgba(15, 16, 21, 0.35);
+    font-weight: 600;
+}
+.btn-barber-dark:hover {
+    background-color: #20222d;
+    border-color: rgba(197, 160, 89, 0.5);
+    color: #d4b26f;
+    transform: translateY(-0.5px);
+}
+
 /* SweetAlert2 Full-Height Fix: prevent height: auto on html/body from shrinking the sidebar */
 html.swal2-shown,
 body.swal2-shown,

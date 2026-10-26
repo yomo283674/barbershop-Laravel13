@@ -129,7 +129,7 @@ class AdminCitaController extends Controller
         $cita->update($validated);
 
         return redirect()->route('admin.citas.index')
-            ->with('success', "Cita #{$cita->id_cita} actualizada correctamente.");
+            ->with("Cita #{$cita->id_cita} actualizada correctamente.");
     }
 
     /**
@@ -150,7 +150,7 @@ class AdminCitaController extends Controller
 
         $cita->save();
 
-        return back()->with('success', "La cita #{$cita->id_cita} cambió al estado: {$cita->estado}.");
+        return back()->with("La cita #{$cita->id_cita} cambió al estado: {$cita->estado}.");
     }
 
     /**
@@ -162,6 +162,6 @@ class AdminCitaController extends Controller
         $cita->motivo_cancelacion = $request->input('motivo_cancelacion', 'Cancelada por el administrador');
         $cita->save();
 
-        return back()->with('success', "Cita #{$cita->id_cita} cancelada.");
+        return back()->with("Cita #{$cita->id_cita} cancelada.");
     }
 }

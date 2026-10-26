@@ -95,7 +95,7 @@ class AdminTurnoController extends Controller
         ]);
 
         return redirect()->route('admin.turnos.index')
-            ->with('success', "Turno #{$turno->posicion} generado con éxito en sala de espera.");
+            ->with("Turno #{$turno->posicion} generado con éxito en sala de espera.");
     }
 
     /**
@@ -106,7 +106,7 @@ class AdminTurnoController extends Controller
         $turno->estado = 'EN_ATENCION';
         $turno->save();
 
-        return back()->with('success', "Turno #{$turno->posicion} llamado a la estación de atención.");
+        return back()->with("Turno #{$turno->posicion} llamado a la estación de atención.");
     }
 
     /**
@@ -122,7 +122,7 @@ class AdminTurnoController extends Controller
             $turno->cita->update(['estado' => 'COMPLETADA']);
         }
 
-        return back()->with('success', "Turno #{$turno->posicion} completado y finalizado.");
+        return back()->with("Turno #{$turno->posicion} completado y finalizado.");
     }
 
     /**

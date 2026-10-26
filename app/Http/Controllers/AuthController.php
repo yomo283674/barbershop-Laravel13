@@ -43,7 +43,7 @@ class AuthController extends Controller
         Auth::login($usuario);
 
         // Redirigir de vuelta al registro para mostrar la alerta
-        return back()->with('success', '¡Tu cuenta ha sido creada exitosamente!');
+        return back()->with('¡Tu cuenta ha sido creada exitosamente!');
     }
 
     /**

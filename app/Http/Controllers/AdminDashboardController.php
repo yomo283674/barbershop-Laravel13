@@ -101,7 +101,7 @@ class AdminDashboardController extends Controller
                 $cita->save();
             }
 
-            return back()->with('success', 'Reprogramación aprobada. La cita se actualizó a la nueva fecha y hora.');
+            return back()->with('Reprogramación aprobada. La cita se actualizó a la nueva fecha y hora.');
         } else {
             $reprogramacion->estado = 'CANCELADA';
             $reprogramacion->save();
