@@ -175,7 +175,7 @@ class BarberoServicioController extends Controller
         $servicio->imagen = null;
         $servicio->save();
 
-        return back()->with('success', 'Foto del servicio eliminada.');
+        return back()->with('Foto del servicio eliminada.');
     }
 
     /**
@@ -187,7 +187,7 @@ class BarberoServicioController extends Controller
 
         if ($servicio->id_barbero != $user->id_usuario) {
             return redirect()->route('barbero.servicios.index')
-                ->with('error', 'Acción no permitida en servicios ajenos.');
+                ->with('Acción no permitida en servicios ajenos.');
         }
 
         $nuevoEstado = $servicio->estado === 'ACTIVO' ? 'INACTIVO' : 'ACTIVO';
@@ -217,7 +217,7 @@ class BarberoServicioController extends Controller
 
         if ($servicio->id_barbero != $user->id_usuario) {
             return redirect()->route('barbero.servicios.index')
-                ->with('error', 'Acción no permitida.');
+                ->with('Acción no permitida.');
         }
 
         $servicio->estado = 'ELIMINADO';
@@ -233,6 +233,6 @@ class BarberoServicioController extends Controller
         ]);
 
         return redirect()->route('barbero.servicios.index')
-            ->with('success', 'Servicio retirado de tu portafolio exitosamente.');
+            ->with('Servicio retirado de tu portafolio exitosamente.');
     }
 }

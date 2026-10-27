@@ -108,7 +108,7 @@ class AdminCitaController extends Controller
         ]);
 
         return redirect()->route('admin.citas.index')
-            ->with('success', "¡Cita #{$cita->id_cita} agendada exitosamente!");
+            ->with("¡Cita #{$cita->id_cita} agendada exitosamente!");
     }
 
     /**

@@ -42,14 +42,14 @@ class CheckRole
         if (! in_array((int) $user->id_rol, $allowedRoleIds, true)) {
             // Si no tiene el rol, redirigir a su propio dashboard según su rol
             if ($user->esAdmin()) {
-                return redirect()->route('admin.dashboard1')->with('error', 'No tienes permisos para acceder a esa sección.');
+                return redirect()->route('admin.dashboard1')->with('No tienes permisos para acceder a esa sección.');
             }
 
             if ($user->esBarbero()) {
-                return redirect()->route('barbero.dashboard2')->with('error', 'No tienes permisos para acceder a esa sección.');
+                return redirect()->route('barbero.dashboard2')->with('No tienes permisos para acceder a esa sección.');
             }
 
-            return redirect()->route('cliente.dashboard3')->with('error', 'No tienes permisos para acceder a esa sección.');
+            return redirect()->route('cliente.dashboard3')->with('No tienes permisos para acceder a esa sección.');
         }
 
         return $next($request);

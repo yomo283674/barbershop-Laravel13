@@ -92,7 +92,7 @@ class AdminBarberoController extends Controller
         ]);
 
         return redirect()->route('admin.barberos.index')
-            ->with("¡Barbero '{$barbero->nombre}' registrado exitosamente!");
+            ->with("'{$barbero->nombre}' registrado exitosamente!");
     }
 
     /**

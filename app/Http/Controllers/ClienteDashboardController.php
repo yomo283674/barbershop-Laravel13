@@ -342,7 +342,7 @@ class ClienteDashboardController extends Controller
         });
 
         if ($conflictoBloqueo) {
-            return back()->with('error', 'El barbero tiene un receso o bloqueo programado en ese horario.');
+            return back()->with('El barbero tiene un receso o bloqueo programado en ese horario.');
         }
 
         $cita = Cita::create([
@@ -377,11 +377,11 @@ class ClienteDashboardController extends Controller
 
         // Seguridad: el cliente solo puede cancelar sus propias citas
         if ($cita->id_cliente != $user->id_usuario) {
-            return back()->with('error', 'No tienes permiso para modificar esta cita.');
+            return back()->with('No tienes permiso para modificar esta cita.');
         }
 
         if (! in_array($cita->estado, ['PENDIENTE', 'ACEPTADA', 'REPROGRAMADA'])) {
-            return back()->with('error', 'Solo puedes cancelar citas que estén pendientes, confirmadas o reprogramadas.');
+            return back()->with('Solo puedes cancelar citas que estén pendientes, confirmadas o reprogramadas.');
         }
 
         // Regla de Negocio: Validar tiempo_cancelacion_min configurado en el sistema
@@ -393,7 +393,7 @@ class ClienteDashboardController extends Controller
             $citaDateTime = Carbon::parse("{$fechaCitaStr} {$cita->hora}");
 
             if (Carbon::now()->diffInMinutes($citaDateTime, false) < $minutosLimite) {
-                return back()->with('error', "No es posible cancelar la cita. Según las políticas de la barbería, las cancelaciones deben realizarse con al menos {$minutosLimite} minutos de antelación.");
+                return back()->with("No es posible cancelar la cita. Según las políticas de la barbería, las cancelaciones deben realizarse con al menos {$minutosLimite} minutos de antelación.");
             }
         }
 
@@ -418,7 +418,7 @@ class ClienteDashboardController extends Controller
             'observacion' => $cita->motivo_cancelacion,
         ]);
 
-        return back()->with('info', "Tu cita #{$cita->id_cita} ha sido cancelada.");
+        return back()->with("Tu cita #{$cita->id_cita} ha sido cancelada.");
     }
 
     /**
@@ -431,11 +431,11 @@ class ClienteDashboardController extends Controller
 
         $cita = $reprogramacion->cita;
         if (! $cita || $cita->id_cliente != $user->id_usuario) {
-            return back()->with('error', 'No tienes autorización para responder a esta solicitud.');
+            return back()->with('No tienes autorización para responder a esta solicitud.');
         }
 
         if ($reprogramacion->estado !== 'PENDIENTE') {
-            return back()->with('info', 'Esta solicitud ya ha sido procesada previamente.');
+            return back()->with('Esta solicitud ya ha sido procesada previamente.');
         }
 
         $validated = $request->validate([
@@ -475,7 +475,7 @@ class ClienteDashboardController extends Controller
                 'observacion' => null,
             ]);
 
-            return back()->with('success', '¡Has aceptado el nuevo horario! Tu cita ha quedado confirmada.');
+            return back()->with('¡Has aceptado el nuevo horario! Tu cita ha quedado confirmada.');
         }
 
         // Rechazo de reprogramación
@@ -499,6 +499,6 @@ class ClienteDashboardController extends Controller
             'observacion' => 'Cita marcada como cancelada por falta de coincidencia horaria',
         ]);
 
-        return back()->with('info', 'Has rechazado la solicitud de reprogramación. La cita ha sido cancelada.');
+        return back()->with('Has rechazado la solicitud de reprogramación. La cita ha sido cancelada.');
     }
 }

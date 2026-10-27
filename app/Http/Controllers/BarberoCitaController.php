@@ -124,7 +124,7 @@ class BarberoCitaController extends Controller
 
         $msg = $cita->estado === 'ACEPTADA' ? '¡Cita confirmada y agendada exitosamente!' : 'Cita marcada como cancelada.';
 
-        return back()->with('success', $msg);
+        return back()->with($msg);
     }
 
     /**

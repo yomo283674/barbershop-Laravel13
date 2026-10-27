@@ -106,7 +106,7 @@ class AdminDashboardController extends Controller
             $reprogramacion->estado = 'CANCELADA';
             $reprogramacion->save();
 
-            return back()->with('info', 'La solicitud de reprogramación ha sido rechazada.');
+            return back()->with('La solicitud de reprogramación ha sido rechazada.');
         }
     }
 }

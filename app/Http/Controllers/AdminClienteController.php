@@ -106,7 +106,7 @@ class AdminClienteController extends Controller
         ]);
 
         return redirect()->route('admin.clientes.index')
-            ->with("¡Cliente '{$cliente->nombre}' registrado exitosamente!");
+            ->with("{$cliente->nombre}' registrado exitosamente!");
     }
 
     /**
@@ -135,7 +135,7 @@ class AdminClienteController extends Controller
         ]);
 
         return redirect()->route('admin.clientes.index')
-            ->with('success', "¡Datos de '{$cliente->nombre}' actualizados correctamente!");
+            ->with("¡Datos de '{$cliente->nombre}' actualizados correctamente!");
     }
 
     /**
@@ -157,7 +157,7 @@ class AdminClienteController extends Controller
             'observacion' => 'Modificación administrativa de acceso a reservas.',
         ]);
 
-        return back()->with('success', "El estado de '{$cliente->nombre}' ha sido cambiado a {$nuevoEstado}.");
+        return back()->with("El estado de '{$cliente->nombre}' ha sido cambiado a {$nuevoEstado}.");
     }
 
     /**

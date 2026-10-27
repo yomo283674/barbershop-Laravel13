@@ -70,7 +70,7 @@ class BarberoTurnoController extends Controller
         $user = Auth::user();
 
         if ($turno->cita && $turno->cita->id_barbero != $user->id_usuario) {
-            return back()->with('error', 'Este turno no está asignado a tu puesto.');
+            return back()->with('Este turno no está asignado a tu puesto.');
         }
 
         // Si ya hay un turno en atención para este barbero, ponerlo finalizado o avisar
@@ -96,7 +96,7 @@ class BarberoTurnoController extends Controller
             'observacion' => null,
         ]);
 
-        return back()->with('success', "¡Llamando al Turno #{$turno->posicion} ({$turno->cliente->nombre}) a tu silla de atención!");
+        return back()->with("¡Llamando al Turno #{$turno->posicion} ({$turno->cliente->nombre}) a tu silla de atención!");
     }
 
     /**
@@ -107,7 +107,7 @@ class BarberoTurnoController extends Controller
         $user = Auth::user();
 
         if ($turno->cita && $turno->cita->id_barbero != $user->id_usuario) {
-            return back()->with('error', 'Acción no permitida.');
+            return back()->with('Acción no permitida.');
         }
 
         $turno->estado = 'FINALIZADO';
@@ -127,6 +127,6 @@ class BarberoTurnoController extends Controller
             'observacion' => null,
         ]);
 
-        return back()->with('success', "Turno #{$turno->posicion} finalizado exitosamente.");
+        return back()->with("Turno {$turno->posicion} finalizado exitosamente.");
     }
 }

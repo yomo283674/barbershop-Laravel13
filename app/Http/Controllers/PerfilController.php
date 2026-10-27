@@ -37,10 +37,10 @@ class PerfilController extends Controller
             $user->foto_perfil = '/storage/'.$path;
             $user->save();
 
-            return back()->with('success', '¡Foto de perfil actualizada con éxito!');
+            return back()->with('¡Foto de perfil actualizada con éxito!');
         }
 
-        return back()->with('error', 'No se pudo procesar la imagen seleccionada.');
+        return back()->with('No se pudo procesar la imagen seleccionada.');
     }
 
     /**
@@ -60,10 +60,10 @@ class PerfilController extends Controller
             $user->foto_perfil = null;
             $user->save();
 
-            return back()->with('success', 'Foto de perfil eliminada correctamente.');
+            return back()->with('Foto de perfil eliminada correctamente.');
         }
 
-        return back()->with('info', 'No tienes una foto personalizada configurada.');
+        return back()->with('No tienes una foto personalizada configurada.');
     }
 
     /**
@@ -83,6 +83,6 @@ class PerfilController extends Controller
         $user->telefono = $validated['telefono'] ?? null;
         $user->save();
 
-        return back()->with('success', '¡Información de perfil actualizada!');
+        return back()->with('¡Información de perfil actualizada!');
     }
 }
