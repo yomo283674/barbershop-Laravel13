@@ -40,7 +40,7 @@
 <body
     class="bg-[#F3F3F0] min-h-screen text-brand-black antialiased flex items-center justify-center p-2 sm:p-6 lg:p-10 py-4 sm:py-8">
 
-    <!-- Tarjeta de alerta SweetAlert2 -->
+    <!-- Tarjeta de alerta SweetAlert2 y Redirección -->
     @if (session('success'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -49,7 +49,12 @@
                     icon: "success",
                     title: '{{ session("success") }}',
                     showConfirmButton: false,
-                    timer: 1500
+                    timer: 1500,
+                    timerProgressBar: true
+                }).then(() => {
+                    @if (session('redirect_url'))
+                        window.location.href = "{{ session('redirect_url') }}";
+                    @endif
                 });
             });
         </script>

@@ -72,16 +72,18 @@ class AuthController extends Controller
             /** @var Usuario $user */
             $user = Auth::user();
 
-            // Redirigir dependiendo del rol del usuario
+            $targetUrl = '/cliente/dashboard3';
             if ($user->esAdmin()) {
-                return redirect()->intended('/administrador/dashboard1');
+                $targetUrl = '/administrador/dashboard1';
+            } elseif ($user->esBarbero()) {
+                $targetUrl = '/barbero/dashboard2';
             }
 
-            if ($user->esBarbero()) {
-                return redirect()->intended('/barbero/dashboard2');
-            }
+            $redirectUrl = session()->pull('url.intended', $targetUrl);
 
-            return redirect()->intended('/cliente/dashboard3');
+            return back()
+                ->with('success', "¡Bienvenido al sistema, {$user->nombre}!")
+                ->with('redirect_url', $redirectUrl);
         }
 
         return back()->withErrors([
