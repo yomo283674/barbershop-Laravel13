@@ -171,7 +171,7 @@
     </div>
 
     <!-- 3. Desglose de Servicios y Comisiones -->
-    <div class="relative bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+    <div id="tablaComisionesBarberoCard" class="relative bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
         <div class="absolute -right-12 -top-12 w-36 h-36 rounded-full bg-amber-500/5 blur-2xl pointer-events-none"></div>
 
         <div class="relative z-10 p-5 sm:p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -266,11 +266,42 @@
             </table>
         </div>
 
-        @if($citas->hasPages())
-            <div class="p-4 border-t border-slate-100">
-                {{ $citas->links() }}
+        <!-- Footer de Tabla: Resumen, Selector de Cantidad por Página y Paginación Establecida -->
+        <div class="px-5 py-3.5 sm:px-6 border-t border-slate-100 bg-slate-50/60 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                <span>Mostrando</span>
+                <span class="font-bold text-slate-900 font-arial">{{ $citas->firstItem() ?? 0 }}–{{ $citas->lastItem() ?? 0 }}</span>
+                <span class="text-slate-400">de</span>
+                <span class="font-bold text-slate-900 font-arial">{{ $citas->total() }}</span>
+                <span>liquidaciones</span>
             </div>
-        @endif
+
+            <!-- Toolbar Derecha: Selector de Filas + Navegación Establecida -->
+            <div class="flex items-center gap-3 sm:gap-4 flex-wrap justify-center md:justify-end">
+                <!-- Selector Cantidad por Página -->
+                <div class="inline-flex items-center gap-1.5">
+                    <span class="text-xs text-slate-400 font-semibold hidden sm:inline">Mostrar:</span>
+                    <div class="inline-flex items-center bg-slate-100/90 p-1 rounded-2xl border border-slate-200/70">
+                        @foreach([5, 10, 15, 25] as $cant)
+                            <a href="{{ request()->fullUrlWithQuery(['per_page' => $cant, 'page' => 1]) }}"
+                            class="px-2.5 py-1 rounded-xl text-xs font-arial transition-all {{ request('per_page', 10) == $cant ? 'bg-white text-slate-950 font-bold shadow-xs border border-slate-200/80' : 'text-slate-500 hover:text-slate-900 hover:bg-white/60 font-semibold' }}">
+                                {{ $cant }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+
+                @if($citas->hasPages())
+                    <span class="h-4 w-px bg-slate-200 hidden sm:block"></span>
+
+                    {{-- Controles de Paginación Establecida del Sistema --}}
+                    <div>
+                        {{ $citas->links('vendor.pagination.custom') }}
+                    </div>
+                @endif
+            </div>
+        </div>
     </div>
 
 </div>

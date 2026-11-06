@@ -27,8 +27,8 @@
     <!-- Resumen del Equipo -->
     <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs flex flex-wrap items-center justify-between gap-4">
         <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-700">
-                <i data-lucide="award" class="w-5 h-5"></i>
+            <div class="w-11 h-11 rounded-xl overflow-hidden border border-amber-200/80 shadow-2xs shrink-0 bg-slate-950 flex items-center justify-center">
+                <img src="{{ asset('images/salon-especialistas.png') }}" alt="Especialistas Certificados" class="w-full h-full object-cover">
             </div>
             <div>
                 <h2 class="text-sm font-bold text-slate-900">Especialistas Certificados</h2>
@@ -44,7 +44,7 @@
     </div>
 
     <!-- Catálogo de Barberos -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+    <div id="catalogoBarberosCliente" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
         @forelse($barberos as $barbero)
             @include('cliente.partials.barbero_card', ['barbero' => $barbero, 'index' => $loop->index])
         @empty
@@ -57,13 +57,24 @@
     </div>
 
     @if(method_exists($barberos, 'links') && $barberos->hasPages())
-        <div class="mt-8 flex justify-center">
-            {{ $barberos->links() }}
+        <div class="mt-6 px-5 py-3.5 sm:px-6 rounded-3xl border border-slate-200/80 bg-white shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3.5">
+            <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                <span>Mostrando</span>
+                <span class="font-bold text-slate-900 font-arial">{{ $barberos->firstItem() ?? 0 }}–{{ $barberos->lastItem() ?? 0 }}</span>
+                <span class="text-slate-400">de</span>
+                <span class="font-bold text-slate-900 font-arial">{{ $barberos->total() }}</span>
+                <span>profesionales</span>
+            </div>
+            <div>
+                {{ $barberos->links('vendor.pagination.custom') }}
+            </div>
         </div>
     @endif
 
 </div>
 
-<!-- Modal Reutilizable de Reserva Inteligente -->
+<!-- Modales Reutilizables -->
 @include('cliente.partials.modal_reserva')
+@include('cliente.partials.modal_servicio_detalle')
 @endsection

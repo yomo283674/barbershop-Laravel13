@@ -92,7 +92,7 @@ class AdminBarberoController extends Controller
         ]);
 
         return redirect()->route('admin.barberos.index')
-            ->with("'{$barbero->nombre}' registrado exitosamente!");
+            ->with('success', "'{$barbero->nombre}' registrado exitosamente!");
     }
 
     /**
@@ -114,7 +114,7 @@ class AdminBarberoController extends Controller
         $barbero->update($validated);
 
         return redirect()->route('admin.barberos.index')
-            ->with("Barbero '{$barbero->nombre}' actualizado con éxito.");
+            ->with('success', "Barbero '{$barbero->nombre}' actualizado con éxito.");
     }
 
     /**
@@ -127,6 +127,6 @@ class AdminBarberoController extends Controller
         $barbero->estado = $nuevoEstado;
         $barbero->save();
 
-        return back()->with("Estado de '{$barbero->nombre}' cambiado a {$nuevoEstado}.");
+        return back()->with('success', "Estado de '{$barbero->nombre}' cambiado a {$nuevoEstado}.");
     }
 }

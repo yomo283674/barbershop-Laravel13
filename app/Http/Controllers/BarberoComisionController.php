@@ -25,7 +25,12 @@ class BarberoComisionController extends Controller
             ->where('estado', 'COMPLETADA')
             ->whereBetween('fecha', [$fechaInicio, $fechaFin]);
 
-        $citas = (clone $citasQuery)->orderBy('fecha', 'desc')->orderBy('hora', 'desc')->paginate(15)->withQueryString();
+        $perPage = (int) $request->input('per_page', 10);
+        if (! in_array($perPage, [5, 10, 15, 25])) {
+            $perPage = 10;
+        }
+
+        $citas = (clone $citasQuery)->orderBy('fecha', 'desc')->orderBy('hora', 'desc')->paginate($perPage)->withQueryString();
 
         // Totales calculados en el período mediante agregados en base de datos
         $totalServiciosPeriodo = (clone $citasQuery)->count();

@@ -131,7 +131,7 @@
     </div>
 
     <!-- Grid de Tarjetas de Barberos (Estilo Luxury VIP) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div id="gridBarberosContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         @forelse($barberos as $barbero)
             <div class="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/80 hover:border-amber-400/50 shadow-xs hover:shadow-md transition-all flex flex-col justify-between relative overflow-hidden group">
                 

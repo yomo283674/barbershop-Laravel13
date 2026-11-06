@@ -195,7 +195,7 @@
     </div>
 
     <!-- Directorio y Tabla Elegante de Clientes -->
-    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+    <div id="tablaClientesCard" class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
         
         <!-- Toolbar Superior de la Tabla -->
         <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between gap-3 bg-slate-50/40">
@@ -643,6 +643,19 @@
         openModal('modalEditarCliente');
     }
 
+    function formatHora12(horaStr) {
+        if (!horaStr) return '';
+        const partes = horaStr.split(':');
+        if (partes.length >= 2) {
+            let h = parseInt(partes[0], 10);
+            const m = partes[1];
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            h = h % 12 || 12;
+            return `${String(h).padStart(2, '0')}:${m} ${ampm}`;
+        }
+        return horaStr;
+    }
+
     async function verHistorialCliente(id, nombre) {
         document.getElementById('historialClienteNombre').innerText = `Historial: ${nombre}`;
         const contenedor = document.getElementById('historialContenido');
@@ -686,7 +699,7 @@
                                 <p class="text-xs text-slate-500 mt-0.5 flex items-center gap-1.5 flex-wrap">
                                     <span class="font-medium text-slate-700">Barbero: <b>${cita.barbero ? cita.barbero.nombre : 'Por asignar'}</b></span>
                                     <span class="text-slate-300">•</span>
-                                    <span class="font-arial font-semibold text-slate-600">${cita.fecha} a las ${cita.hora}</span>
+                                    <span class="font-arial font-semibold text-slate-600">${cita.fecha} a las ${cita.hora_12 || formatHora12(cita.hora)}</span>
                                 </p>
                             </div>
                         </div>

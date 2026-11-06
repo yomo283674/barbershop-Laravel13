@@ -18,9 +18,16 @@ class BarberoServicioController extends Controller
     {
         $user = Auth::user();
 
-        $query = Servicio::with('categoria')
-            ->where('id_barbero', $user->id_usuario)
+        // Consulta base sin filtros de visualización para métricas del catálogo personal
+        $baseQuery = Servicio::where('id_barbero', $user->id_usuario)
             ->where('estado', '!=', 'ELIMINADO');
+
+        $totalServicios = (clone $baseQuery)->count();
+        $serviciosActivos = (clone $baseQuery)->where('estado', 'ACTIVO')->count();
+        $precioPromedio = round((clone $baseQuery)->where('estado', 'ACTIVO')->avg('precio') ?? 0, 0);
+        $duracionPromedio = round((clone $baseQuery)->where('estado', 'ACTIVO')->avg('duracion_min') ?? 0, 0);
+
+        $query = (clone $baseQuery)->with('categoria');
 
         // Búsqueda
         if ($request->filled('buscar')) {
@@ -41,13 +48,13 @@ class BarberoServicioController extends Controller
             $query->where('estado', $request->estado);
         }
 
-        $servicios = $query->orderBy('nombre', 'asc')->get();
+        $perPage = in_array((int) $request->input('per_page'), [3, 6, 9, 12]) 
+            ? (int) $request->input('per_page') 
+            : 3;
 
-        // Métricas personales del catálogo
-        $totalServicios = $servicios->count();
-        $serviciosActivos = $servicios->where('estado', 'ACTIVO')->count();
-        $precioPromedio = round($servicios->where('estado', 'ACTIVO')->avg('precio') ?? 0, 0);
-        $duracionPromedio = round($servicios->where('estado', 'ACTIVO')->avg('duracion_min') ?? 0, 0);
+        $servicios = $query->orderBy('nombre', 'asc')
+            ->paginate($perPage)
+            ->withQueryString();
 
         // Categorías disponibles
         $categorias = Categoria::orderBy('nombre')->get();
@@ -105,7 +112,7 @@ class BarberoServicioController extends Controller
         ]);
 
         return redirect()->route('barbero.servicios.index')
-            ->with("¡Servicio '{$servicio->nombre}' publicado en tu portafolio exitosamente!");
+            ->with('success', "¡Servicio '{$servicio->nombre}' publicado en tu portafolio exitosamente!");
     }
 
     /**
@@ -118,7 +125,7 @@ class BarberoServicioController extends Controller
         // Validar que el servicio pertenezca al barbero autenticado
         if ($servicio->id_barbero != $user->id_usuario) {
             return redirect()->route('barbero.servicios.index')
-                ->with('No tienes permiso para modificar un servicio que no te pertenece.');
+                ->with('error', 'No tienes permiso para modificar un servicio que no te pertenece.');
         }
 
         $validated = $request->validate([
@@ -153,7 +160,7 @@ class BarberoServicioController extends Controller
         ]);
 
         return redirect()->route('barbero.servicios.index')
-            ->with("Servicio '{$servicio->nombre}' actualizado con éxito.");
+            ->with('success', "Servicio '{$servicio->nombre}' actualizado con éxito.");
     }
 
     /**
@@ -164,7 +171,7 @@ class BarberoServicioController extends Controller
         $user = Auth::user();
 
         if ($servicio->id_barbero != $user->id_usuario) {
-            return back()->with('Acción no permitida.');
+            return back()->with('error', 'Acción no permitida.');
         }
 
         if ($servicio->imagen && str_starts_with($servicio->imagen, '/storage/servicios/')) {
@@ -175,7 +182,7 @@ class BarberoServicioController extends Controller
         $servicio->imagen = null;
         $servicio->save();
 
-        return back()->with('Foto del servicio eliminada.');
+        return back()->with('success', 'Foto del servicio eliminada.');
     }
 
     /**
@@ -187,7 +194,7 @@ class BarberoServicioController extends Controller
 
         if ($servicio->id_barbero != $user->id_usuario) {
             return redirect()->route('barbero.servicios.index')
-                ->with('Acción no permitida en servicios ajenos.');
+                ->with('error', 'Acción no permitida en servicios ajenos.');
         }
 
         $nuevoEstado = $servicio->estado === 'ACTIVO' ? 'INACTIVO' : 'ACTIVO';
@@ -217,7 +224,7 @@ class BarberoServicioController extends Controller
 
         if ($servicio->id_barbero != $user->id_usuario) {
             return redirect()->route('barbero.servicios.index')
-                ->with('Acción no permitida.');
+                ->with('error', 'Acción no permitida.');
         }
 
         $servicio->estado = 'ELIMINADO';
@@ -233,6 +240,6 @@ class BarberoServicioController extends Controller
         ]);
 
         return redirect()->route('barbero.servicios.index')
-            ->with('Servicio retirado de tu portafolio exitosamente.');
+            ->with('success', 'Servicio retirado de tu portafolio exitosamente.');
     }
 }

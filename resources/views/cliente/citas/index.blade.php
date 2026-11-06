@@ -69,7 +69,7 @@
     </div>
 
     <!-- Listado de Citas -->
-    <div class="space-y-3">
+    <div id="listadoCitasCliente" class="space-y-3">
         @forelse($citas as $cita)
             <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs hover:border-amber-400/60 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="flex items-start gap-4">
@@ -200,32 +200,21 @@
     </div>
 
     <!-- Paginación -->
-    <div class="mt-6 flex justify-center">
-        {{ $citas->links() }}
-    </div>
+    @if(method_exists($citas, 'links') && $citas->hasPages())
+        <div class="mt-6 px-5 py-3.5 sm:px-6 rounded-3xl border border-slate-200/80 bg-white shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3.5">
+            <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                <span>Mostrando</span>
+                <span class="font-bold text-slate-900 font-arial">{{ $citas->firstItem() ?? 0 }}–{{ $citas->lastItem() ?? 0 }}</span>
+                <span class="text-slate-400">de</span>
+                <span class="font-bold text-slate-900 font-arial">{{ $citas->total() }}</span>
+                <span>citas</span>
+            </div>
+            <div>
+                {{ $citas->links('vendor.pagination.custom') }}
+            </div>
+        </div>
+    @endif
 
 </div>
-
-@push('scripts')
-<script>
-    function confirmarCancelacionCita(event, form) {
-        event.preventDefault();
-        Swal.fire({
-            title: "¿Deseas cancelar esta cita?",
-            text: "Ten presente que las cancelaciones están sujetas al tiempo mínimo de anticipación configurado.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#e11d48",
-            cancelButtonColor: "#64748b",
-            confirmButtonText: "Sí, cancelar cita",
-            cancelButtonText: "Conservar cita",
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                form.submit();
-            }
-        });
-    }
-</script>
-@endpush
 @endsection

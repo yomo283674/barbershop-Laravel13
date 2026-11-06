@@ -37,28 +37,27 @@
         <div class="mt-3 pt-3 border-t border-slate-100 space-y-1.5">
             <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-amber-800/80">
                 <span>Servicios:</span>
-                <span class="text-[9px] text-amber-700/60 font-semibold">COP</span>
+                <span class="text-[9px] text-amber-700/60 font-semibold">COP • Clic para ver tarjeta</span>
             </div>
             @forelse($barbero->servicios->take(3) as $serv)
-                <div class="flex items-center justify-between text-xs py-1.5 px-2 rounded-xl bg-amber-50/40 hover:bg-amber-50/80 border border-amber-200/50 transition-colors">
-                    <span class="text-slate-800 truncate pr-2 font-medium">• {{ $serv->nombre }}</span>
-                    <span class="font-bold text-amber-900 font-arial text-xs shrink-0 whitespace-nowrap bg-white px-2 py-0.5 rounded-md border border-amber-200 shadow-2xs">
+                <button type="button" 
+                        onclick="verTarjetaServicio({{ json_encode($serv) }}, '{{ addslashes($barbero->nombre) }}', '{{ $barbero->foto_perfil ? asset($barbero->foto_perfil) : '' }}')"
+                        class="w-full flex items-center justify-between text-xs py-1.5 px-2.5 rounded-xl bg-amber-50/40 hover:bg-amber-100/80 border border-amber-200/50 hover:border-amber-300 transition-all cursor-pointer group/item text-left shadow-2xs active:scale-[0.99]"
+                        title="Ver tarjeta y detalles de {{ $serv->nombre }}">
+                    <span class="text-slate-800 truncate pr-2 font-medium group-hover/item:text-amber-950 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500/80 shrink-0"></span>
+                        <span class="truncate">{{ $serv->nombre }}</span>
+                    </span>
+                    <span class="font-bold text-amber-900 font-arial text-xs shrink-0 whitespace-nowrap bg-white px-2 py-0.5 rounded-md border border-amber-200 shadow-2xs group-hover/item:border-amber-300">
                         ${{ number_format($serv->precio, 0) }}
                     </span>
-                </div>
+                </button>
             @empty
                 <div class="py-2.5 px-3 text-center rounded-xl bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-transparent border border-dashed border-amber-300/70">
-                    <p class="text-xs font-semibold text-amber-900">Cortes clásicos & barba</p>
+                    <p class="text-xs font-semibold text-amber-900">Cortes clásicos y barba</p>
                     <p class="text-[10px] text-amber-700/80 font-medium mt-0.5">Catálogo completo al agendar</p>
                 </div>
             @endforelse
         </div>
     </div>
-
-    <button type="button" 
-            onclick="seleccionarBarberoParaReserva({{ $barbero->id_usuario }})" 
-            class="mt-4 w-full py-2.5 rounded-xl bg-[#0b0c10] hover:bg-[#1a1b22] text-white border border-[#1a1b22] hover:border-slate-700 text-xs font-semibold tracking-wide transition-all flex items-center justify-center gap-2 shadow-xs cursor-pointer">
-        <i data-lucide="calendar-check" class="w-3.5 h-3.5 text-[#c5a059]"></i>
-        <span>Elegir a {{ explode(' ', $barbero->nombre)[0] }}</span>
-    </button>
 </div>

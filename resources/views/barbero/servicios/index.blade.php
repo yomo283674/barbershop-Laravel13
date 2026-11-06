@@ -194,7 +194,7 @@
     </div>
 
     <!-- Grid de Tarjetas de Servicios (Con Imagen de Corte de Cabello) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div id="gridBarberoServicios" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         @forelse($servicios as $servicio)
             <div class="relative bg-white rounded-2xl border border-slate-200/90 shadow-xs hover:border-amber-300/80 hover:shadow-xl hover:shadow-amber-500/5 hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col justify-between group">
                 
@@ -205,13 +205,8 @@
                         <!-- Gradiente cinemático de contraste -->
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-black/35 pointer-events-none"></div>
 
-                        <!-- Badges Superiores Flotantes -->
-                        <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
-                            <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-amber-300 bg-slate-950/85 backdrop-blur-md px-3 py-1.5 rounded-xl border border-amber-400/40 shadow-sm">
-                                <i data-lucide="scissors" class="w-3 h-3 text-amber-400"></i>
-                                {{ $servicio->categoria->nombre ?? 'Servicio' }}
-                            </span>
-
+                        <!-- Badge Superior de Estado -->
+                        <div class="absolute top-3.5 right-3.5 flex items-center pointer-events-none">
                             <span class="inline-flex items-center gap-1.5 text-[11px] font-bold px-3 py-1 rounded-full backdrop-blur-md shadow-sm {{ $servicio->estado === 'ACTIVO' ? 'bg-emerald-500/95 text-white border border-emerald-400/40' : 'bg-slate-800/95 text-slate-300 border border-slate-700/60' }}">
                                 <span class="w-1.5 h-1.5 rounded-full {{ $servicio->estado === 'ACTIVO' ? 'bg-white animate-pulse' : 'bg-slate-400' }}"></span>
                                 {{ $servicio->estado === 'ACTIVO' ? 'Activo' : 'Pausado' }}
@@ -224,12 +219,7 @@
                         <div class="w-14 h-14 rounded-2xl bg-white/5 border border-amber-400/30 shadow-xl flex items-center justify-center text-amber-400 backdrop-blur-md group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                             <i data-lucide="scissors" class="w-7 h-7 stroke-[1.75]"></i>
                         </div>
-                        <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
-                            <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-widest text-amber-300 bg-slate-950/85 backdrop-blur-md px-3 py-1.5 rounded-xl border border-amber-400/40 shadow-sm">
-                                <i data-lucide="scissors" class="w-3 h-3 text-amber-400"></i>
-                                {{ $servicio->categoria->nombre ?? 'Servicio' }}
-                            </span>
-
+                        <div class="absolute top-3.5 right-3.5 flex items-center pointer-events-none">
                             <span class="inline-flex items-center gap-1.5 text-[11px] font-bold px-3 py-1 rounded-full backdrop-blur-md shadow-sm {{ $servicio->estado === 'ACTIVO' ? 'bg-emerald-500/95 text-white border border-emerald-400/40' : 'bg-slate-800/95 text-slate-300 border border-slate-700/60' }}">
                                 <span class="w-1.5 h-1.5 rounded-full {{ $servicio->estado === 'ACTIVO' ? 'bg-white animate-pulse' : 'bg-slate-400' }}"></span>
                                 {{ $servicio->estado === 'ACTIVO' ? 'Activo' : 'Pausado' }}
@@ -314,7 +304,7 @@
                             <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
                         </button>
 
-                        <form action="{{ route('barbero.servicios.destroy', $servicio->id_servicio) }}" method="POST" onsubmit="confirmarEliminarServicio(event, this)">
+                        <form action="{{ route('barbero.servicios.destroy', $servicio->id_servicio) }}" method="POST" onsubmit="confirmarEliminacion(event, this)">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="w-8 h-8 rounded-xl border border-slate-200 bg-white text-slate-400 hover:text-rose-600 hover:border-rose-300 hover:bg-rose-50/70 transition-all flex items-center justify-center shadow-2xs active:scale-95 cursor-pointer" title="Eliminar servicio">
@@ -336,6 +326,18 @@
             </div>
         @endforelse
     </div>
+
+    <!-- Paginación Reutilizada -->
+    @if(method_exists($servicios, 'links') && $servicios->hasPages())
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-xs text-slate-500 font-medium">
+                Mostrando <span class="font-bold text-slate-900 font-sans tabular-nums">{{ $servicios->firstItem() }}</span> a <span class="font-bold text-slate-900 font-sans tabular-nums">{{ $servicios->lastItem() }}</span> de <span class="font-bold text-slate-900 font-sans tabular-nums">{{ $servicios->total() }}</span> servicios
+            </p>
+            <div class="flex items-center">
+                {{ $servicios->links('vendor.pagination.custom') }}
+            </div>
+        </div>
+    @endif
 </div>
 
 <!-- MODAL: CREAR SERVICIO -->
@@ -565,7 +567,15 @@
         if (input.files && input.files[0]) {
             const file = input.files[0];
             if (file.size > 5 * 1024 * 1024) {
-                alert('La imagen seleccionada supera el límite máximo de 5MB.');
+                if (window.swalBarbershop) {
+                    window.swalBarbershop.fire({
+                        title: 'Archivo demasiado grande',
+                        text: 'La imagen seleccionada supera el límite máximo de 5MB.',
+                        icon: 'warning'
+                    });
+                } else {
+                    alert('La imagen seleccionada supera el límite máximo de 5MB.');
+                }
                 input.value = '';
                 return;
             }
@@ -664,19 +674,6 @@
     }
     function cerrarModalEditar() {
         document.getElementById('modalEditar').classList.add('hidden');
-    }
-
-    function confirmarEliminarServicio(event, form) {
-        if (typeof window.confirmarEliminacion === 'function') {
-            window.confirmarEliminacion(event, form, {
-                title: "¿Estás seguro?",
-                text: "¡No podrás revertir esto!",
-                confirmText: "¡Sí, eliminar!",
-                cancelText: "No, cancelar!"
-            });
-        } else if (form) {
-            form.submit();
-        }
     }
 </script>
 @endpush

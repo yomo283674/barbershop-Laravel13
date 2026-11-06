@@ -638,9 +638,12 @@
                         class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Nueva Hora</label>
-                    <input type="time" name="nueva_hora" id="inputNuevaHora" required
-                        class="w-full text-xs rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
+                    <div class="flex items-center justify-between mb-1">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Nueva Hora</label>
+                        <span id="badge_reprog_hora_dash" class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 font-bold text-xs font-mono">--:-- --</span>
+                    </div>
+                    <input type="time" name="nueva_hora" id="inputNuevaHora" required oninput="actualizarBadgeHora(this.value, 'badge_reprog_hora_dash')"
+                        class="w-full text-xs font-mono font-semibold rounded-xl border border-slate-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500/30">
                 </div>
             </div>
 
@@ -664,6 +667,22 @@
 
 @push('scripts')
 <script>
+    function actualizarBadgeHora(valor24, badgeId) {
+        if (!valor24) return;
+        const partes = valor24.split(':');
+        if (partes.length >= 2) {
+            let hora = parseInt(partes[0], 10);
+            const min = partes[1];
+            const ampm = hora >= 12 ? 'PM' : 'AM';
+            hora = hora % 12 || 12;
+            const strHora = String(hora).padStart(2, '0');
+            const badge = document.getElementById(badgeId);
+            if (badge) {
+                badge.textContent = `${strHora}:${min} ${ampm}`;
+            }
+        }
+    }
+
     function abrirModalFinalizar(idCita, cliente, servicio) {
         document.getElementById('formFinalizar').action = `/barbero/citas/${idCita}/finalizar`;
         document.getElementById('modalFinalizarSubtitle').innerText = `${cliente} • ${servicio}`;
@@ -689,6 +708,7 @@
         document.getElementById('modalReprogramarSubtitle').innerText = `Cliente: ${cliente}`;
         document.getElementById('inputNuevaFecha').value = fecha;
         document.getElementById('inputNuevaHora').value = hora;
+        actualizarBadgeHora(hora, 'badge_reprog_hora_dash');
         document.getElementById('modalReprogramar').classList.remove('hidden');
         if (window.lucide) lucide.createIcons();
     }

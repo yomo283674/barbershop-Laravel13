@@ -82,6 +82,9 @@
     <!-- Filters Section (Barra de Búsqueda y Filtros) -->
     <div class="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200/80 shadow-xs">
         <form method="GET" action="{{ route('admin.citas.index') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
+            @if(request('per_page'))
+                <input type="hidden" name="per_page" value="{{ request('per_page') }}">
+            @endif
             @if(request('estado') && request('estado') !== 'TODAS')
                 <input type="hidden" name="estado" value="{{ request('estado') }}">
             @endif
@@ -135,7 +138,7 @@
     </div>
 
     <!-- Citas Feed / List Card (Sin Scroll Horizontal y Totalmente Responsivo) -->
-    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col">
+    <div id="listaCitasCard" class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col">
         
         <!-- Header del Contenedor -->
         <div class="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between">
@@ -350,12 +353,43 @@
             @endforelse
         </div>
 
-        <!-- Paginación -->
-        @if($citas->hasPages())
-            <div class="p-4 sm:p-5 border-t border-slate-100 bg-slate-50/50">
-                {{ $citas->links() }}
+        <!-- Footer con Paginación Premium Rediseñada -->
+        <div class="px-5 py-3.5 sm:px-6 border-t border-slate-100 bg-slate-50/60 flex flex-col md:flex-row items-center justify-between gap-3.5">
+            <!-- Indicador de Resultados Elegante y Limpio -->
+            <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                <span>Mostrando</span>
+                <span class="font-bold text-slate-900 font-arial">{{ $citas->firstItem() ?? 0 }}–{{ $citas->lastItem() ?? 0 }}</span>
+                <span class="text-slate-400">de</span>
+                <span class="font-bold text-slate-900 font-arial">{{ $citas->total() }}</span>
+                <span>citas en itinerario</span>
             </div>
-        @endif
+
+            <!-- Toolbar Derecha: Selector de Filas + Navegación -->
+            <div class="flex items-center gap-3 flex-wrap justify-center md:justify-end">
+                <!-- Selector Cantidad por Página (Segmented Control Armonioso) -->
+                <div class="inline-flex items-center gap-1.5">
+                    <span class="text-xs text-slate-400 font-semibold hidden sm:inline">Mostrar:</span>
+                    <div class="inline-flex items-center bg-slate-100/90 p-1 rounded-2xl border border-slate-200/70">
+                        @foreach([5, 10, 15, 20] as $cant)
+                            <a href="{{ request()->fullUrlWithQuery(['per_page' => $cant, 'page' => 1]) }}"
+                            class="px-2.5 py-1 rounded-xl text-xs font-arial transition-all {{ request('per_page', 10) == $cant ? 'bg-white text-slate-950 font-bold shadow-xs border border-slate-200/80' : 'text-slate-500 hover:text-slate-900 hover:bg-white/60 font-semibold' }}">
+                                {{ $cant }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+
+                @if($citas->hasPages())
+                    <span class="h-4 w-px bg-slate-200 hidden sm:block"></span>
+
+                    {{-- Controles de Paginación con Números Arial --}}
+                    <div>
+                        {{ $citas->links('vendor.pagination.custom') }}
+                    </div>
+                @endif
+            </div>
+        </div>
     </div>
 
 </div>
@@ -423,8 +457,11 @@
                     <input type="date" name="fecha" value="{{ now()->toDateString() }}" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-semibold">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hora</label>
-                    <input type="time" name="hora" value="10:00" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-semibold">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Hora</label>
+                        <span id="badge_hora_nueva" class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 font-bold text-xs font-mono">10:00 AM</span>
+                    </div>
+                    <input type="time" name="hora" value="10:00" required oninput="actualizarBadgeHora(this.value, 'badge_hora_nueva')" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-mono font-semibold">
                 </div>
             </div>
 
@@ -504,8 +541,11 @@
                     <input type="date" name="fecha" id="edit_fecha" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-semibold">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hora</label>
-                    <input type="time" name="hora" id="edit_hora" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-semibold">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Hora</label>
+                        <span id="badge_hora_edit" class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 font-bold text-xs font-mono">--:-- --</span>
+                    </div>
+                    <input type="time" name="hora" id="edit_hora" required oninput="actualizarBadgeHora(this.value, 'badge_hora_edit')" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 transition-all font-mono font-semibold">
                 </div>
             </div>
 
@@ -593,6 +633,22 @@
 
 @push('scripts')
 <script>
+    function actualizarBadgeHora(valor24, badgeId) {
+        if (!valor24) return;
+        const partes = valor24.split(':');
+        if (partes.length >= 2) {
+            let hora = parseInt(partes[0], 10);
+            const min = partes[1];
+            const ampm = hora >= 12 ? 'PM' : 'AM';
+            hora = hora % 12 || 12;
+            const strHora = String(hora).padStart(2, '0');
+            const badge = document.getElementById(badgeId);
+            if (badge) {
+                badge.textContent = `${strHora}:${min} ${ampm}`;
+            }
+        }
+    }
+
     function abrirModalEditarCita(cita) {
         const form = document.getElementById('formEditarCita');
         form.action = `/administrador/citas/${cita.id_cita}`;
@@ -601,7 +657,9 @@
         document.getElementById('edit_id_barbero').value = cita.id_barbero;
         document.getElementById('edit_id_servicio').value = cita.id_servicio;
         document.getElementById('edit_fecha').value = cita.fecha ? cita.fecha.substring(0, 10) : '';
-        document.getElementById('edit_hora').value = cita.hora ? cita.hora.substring(0, 5) : '';
+        const horaVal = cita.hora ? cita.hora.substring(0, 5) : '';
+        document.getElementById('edit_hora').value = horaVal;
+        actualizarBadgeHora(horaVal, 'badge_hora_edit');
         document.getElementById('edit_estado').value = cita.estado;
         document.getElementById('edit_observacion').value = cita.observacion || '';
         document.getElementById('edit_motivo_cancelacion').value = cita.motivo_cancelacion || '';

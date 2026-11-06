@@ -103,7 +103,7 @@ class AdminServicioController extends Controller
         ]);
 
         return redirect()->route('admin.servicios.index')
-            ->with("'{$servicio->nombre}' añadido con éxito al catálogo!");
+            ->with('success', "'{$servicio->nombre}' añadido con éxito al catálogo!");
     }
 
     /**
@@ -144,7 +144,7 @@ class AdminServicioController extends Controller
         ]);
 
         return redirect()->route('admin.servicios.index')
-            ->with("'{$servicio->nombre}' actualizado correctamente!");
+            ->with('success', "'{$servicio->nombre}' actualizado correctamente!");
     }
 
     /**
@@ -169,7 +169,7 @@ class AdminServicioController extends Controller
             'observacion' => 'El servicio ahora no posee foto personalizada.',
         ]);
 
-        return back()->with("'{$servicio->nombre}' eliminada con éxito.");
+        return back()->with('success', "Foto del servicio '{$servicio->nombre}' eliminada con éxito.");
     }
 
     /**
@@ -190,7 +190,7 @@ class AdminServicioController extends Controller
             'observacion' => 'Visibilidad en reservas modificada por el administrador.',
         ]);
 
-        return back()->with("'{$servicio->nombre}' ahora está {$nuevoEstado}.");
+        return back()->with('success', "'{$servicio->nombre}' ahora está {$nuevoEstado}.");
     }
 
     /**
@@ -218,6 +218,6 @@ class AdminServicioController extends Controller
             'observacion' => 'Agrupación para el catálogo de servicios.',
         ]);
 
-        return back()->with("'{$categoria->nombre}' creada exitosamente!");
+        return back()->with('success', "'{$categoria->nombre}' creada exitosamente!");
     }
 }

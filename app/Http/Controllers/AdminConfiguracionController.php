@@ -74,10 +74,10 @@ class AdminConfiguracionController extends Controller
             'resultado' => 'EXITO',
             'entidad_afectada' => 'configuracion_sistema',
             'detalle' => 'Parámetros del negocio actualizados por '.(Auth::user()->nombre ?? 'Administrador'),
-            'observacion' => "Horarios: {$config->horario_apertura} - {$config->horario_cierre}. Citas: {$config->duracion_cita_min} min. Cancelación: {$config->tiempo_cancelacion_min} min.",
+            'observacion' => "Horarios: {$config->horario_apertura_12} - {$config->horario_cierre_12}. Citas: {$config->duracion_cita_min} min. Cancelación: {$config->tiempo_cancelacion_min} min.",
         ]);
 
         return redirect()->route('admin.configuracion.index')
-            ->with('¡Configuración del sistema y reglas de negocio actualizadas con éxito!');
+            ->with('success', '¡Configuración del sistema y reglas de negocio actualizadas con éxito!');
     }
 }

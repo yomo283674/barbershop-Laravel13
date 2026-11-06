@@ -46,6 +46,24 @@ class Cita extends Model
         return ['fecha' => 'date'];
     }
 
+    protected $appends = ['hora_12'];
+
+    /**
+     * Retorna la hora de la cita en formato de 12 horas con AM/PM (ej: 09:30 AM, 03:00 PM).
+     */
+    public function getHora12Attribute(): string
+    {
+        if (empty($this->hora)) {
+            return '';
+        }
+
+        try {
+            return Carbon::createFromFormat('H:i:s', strlen($this->hora) === 5 ? "{$this->hora}:00" : $this->hora)->format('h:i A');
+        } catch (\Throwable $e) {
+            return Carbon::parse($this->hora)->format('h:i A');
+        }
+    }
+
     public function cliente(): BelongsTo
     {
         return $this->belongsTo(Usuario::class, 'id_cliente');

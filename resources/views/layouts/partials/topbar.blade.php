@@ -14,45 +14,21 @@
     <!-- Right Section: Quick CTA, Settings & User Profile -->
     <div class="flex items-center gap-2 sm:gap-3 shrink-0 ml-auto">
 
-        <!-- Settings Icon -->
-        <button type="button" 
-                id="btnSettingsMenu"
-                onclick="toggleSettingsMenu(event)" 
-                class="w-9 h-9 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100 border border-slate-200/80 active:scale-95 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#c5a059]/30" 
-                title="Configuraciones">
-            <i data-lucide="settings" class="w-4 h-4 stroke-[1.75]"></i>
-        </button>
-
-        <!-- Vertical Divider -->
-        <div class="h-6 w-px bg-slate-200 mx-1 hidden sm:block"></div>
-
-        <!-- User Profile Topbar Trigger & Anclaje del Menú Desplegable -->
+        <!-- Contenedor del Botón de la Rueda y Menú Desplegable (Directamente anclado a la rueda) -->
         <div class="relative" id="settingsMenuContainer">
-            <div onclick="toggleSettingsMenu(event)" class="flex items-center gap-2.5 pl-0.5 cursor-pointer group select-none">
-                <div class="w-9 h-9 rounded-full ring-1 ring-[#c5a059]/40 p-0.5 shadow-xs overflow-hidden bg-[#121319] shrink-0 flex items-center justify-center font-serif text-[#d4b26f] text-xs font-semibold group-hover:ring-[#c5a059]/80 transition-all">
-                    @if(Auth::check() && Auth::user()->foto_perfil)
-                        <img src="{{ Auth::user()->foto_perfil }}" alt="Avatar" class="w-full h-full rounded-full object-cover">
-                    @else
-                        {{ strtoupper(substr(Auth::user()->nombre ?? 'U', 0, 1)) }}
-                    @endif
-                </div>
-                <div class="hidden lg:block text-left leading-tight">
-                    <span class="block text-xs font-semibold text-slate-800 group-hover:text-slate-950 transition-colors truncate max-w-[130px]">{{ Auth::user()->nombre ?? 'Usuario' }}</span>
-                    <span class="block text-[10px] font-medium text-slate-400">
-                        @if(Auth::check() && Auth::user()->esAdmin())
-                            Administrador
-                        @elseif(Auth::check() && Auth::user()->esBarbero())
-                            Barbero Pro
-                        @else
-                            Cliente
-                        @endif
-                    </span>
-                </div>
-            </div>
+            <button type="button" 
+                    id="btnSettingsMenu"
+                    onclick="toggleSettingsMenu(event)" 
+                    class="w-9 h-9 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100 border border-slate-200/80 active:scale-95 transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#c5a059]/30" 
+                    title="Configuraciones"
+                    aria-label="Abrir menú de configuración">
+                <i data-lucide="settings" class="w-4 h-4 stroke-[1.75]"></i>
+            </button>
 
-            <!-- Craftsman Obsidian Popover Menu Compacto (Alineado al extremo derecho) -->
+            <!-- Craftsman Obsidian Popover Menu: Desplegado exactamente DEBAJO del icono de la rueda -->
             <div id="settingsDropdownMenu" 
-                class="hidden absolute right-0 mt-2.5 w-64 max-w-[calc(100vw-1.5rem)] bg-[#111217]/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_-10px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.08)] border border-white/[0.08] z-50 p-2 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+                class="hidden absolute z-50 w-64 max-w-[calc(100vw-2rem)] bg-[#111217]/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_50px_-10px_rgba(0,0,0,0.7),0_0_0_1px_rgba(255,255,255,0.08)] border border-white/[0.08] p-2 overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+                style="top: calc(100% + 10px); left: 0;">
                 
                 <!-- Ambient Subtle Gradient -->
                 <div class="absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent pointer-events-none"></div>
@@ -121,6 +97,32 @@
                         </button>
                     </form>
                 </div>
+            </div>
+        </div>
+
+        <!-- Vertical Divider -->
+        <div class="h-6 w-px bg-slate-200 mx-1 hidden sm:block"></div>
+
+        <!-- User Profile (Solo informativo, no interactivo según diseño de referencia) -->
+        <div class="flex items-center gap-2.5 pl-0.5 select-none" title="{{ Auth::user()->nombre ?? 'Usuario' }}">
+            <div class="w-9 h-9 rounded-full ring-1 ring-[#c5a059]/40 p-0.5 shadow-xs overflow-hidden bg-[#121319] shrink-0 flex items-center justify-center font-serif text-[#d4b26f] text-xs font-semibold">
+                @if(Auth::check() && Auth::user()->foto_perfil)
+                    <img src="{{ Auth::user()->foto_perfil }}" alt="Avatar" class="w-full h-full rounded-full object-cover">
+                @else
+                    {{ strtoupper(substr(Auth::user()->nombre ?? 'U', 0, 1)) }}
+                @endif
+            </div>
+            <div class="hidden lg:block text-left leading-tight">
+                <span class="block text-xs font-semibold text-slate-800 truncate max-w-[130px]">{{ Auth::user()->nombre ?? 'Usuario' }}</span>
+                <span class="block text-[10px] font-medium text-slate-400">
+                    @if(Auth::check() && Auth::user()->esAdmin())
+                        Administrador
+                    @elseif(Auth::check() && Auth::user()->esBarbero())
+                        Barbero Pro
+                    @else
+                        Cliente
+                    @endif
+                </span>
             </div>
         </div>
     </div>
@@ -328,10 +330,26 @@
     function toggleSettingsMenu(event) {
         if (event) event.stopPropagation();
         const menu = document.getElementById('settingsDropdownMenu');
-        if (menu) {
+        const btn = document.getElementById('btnSettingsMenu');
+        if (menu && btn) {
+            const isOpening = menu.classList.contains('hidden');
             menu.classList.toggle('hidden');
-            if (!menu.classList.contains('hidden') && window.lucide) {
-                lucide.createIcons();
+            if (isOpening) {
+                const btnRect = btn.getBoundingClientRect();
+                const menuWidth = 256;
+                const windowWidth = window.innerWidth;
+                
+                if (btnRect.left + menuWidth > windowWidth - 12) {
+                    menu.style.left = 'auto';
+                    menu.style.right = '0';
+                } else {
+                    menu.style.left = '0';
+                    menu.style.right = 'auto';
+                }
+
+                if (window.lucide) {
+                    lucide.createIcons();
+                }
             }
         }
     }
@@ -368,7 +386,15 @@
             
             // Validar tamaño máximo: 5MB
             if (file.size > 5 * 1024 * 1024) {
-                alert('La imagen seleccionada supera el límite de 5MB.');
+                if (window.swalBarbershop) {
+                    window.swalBarbershop.fire({
+                        title: 'Archivo demasiado grande',
+                        text: 'La imagen seleccionada supera el límite máximo de 5MB.',
+                        icon: 'warning'
+                    });
+                } else {
+                    alert('La imagen seleccionada supera el límite máximo de 5MB.');
+                }
                 input.value = '';
                 return;
             }
@@ -427,12 +453,14 @@
         }
     }
 
-    // Cerrar menú al hacer clic fuera
+    // Cerrar menú al hacer clic fuera del menú o del botón de la rueda
     document.addEventListener('click', function(e) {
-        const container = document.getElementById('settingsMenuContainer');
+        const menu = document.getElementById('settingsDropdownMenu');
         const btn = document.getElementById('btnSettingsMenu');
-        if (container && !container.contains(e.target) && (!btn || !btn.contains(e.target))) {
-            closeSettingsMenu();
+        if (menu && !menu.classList.contains('hidden')) {
+            if (!menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
+                closeSettingsMenu();
+            }
         }
     });
 

@@ -17,11 +17,17 @@ class BarberoDisponibilidadController extends Controller
     {
         $user = Auth::user();
 
+        $perPage = (int) $request->input('per_page', 10);
+        if (! in_array($perPage, [5, 10, 15, 25])) {
+            $perPage = 10;
+        }
+
         $disponibilidades = Disponibilidad::where('id_barbero', $user->id_usuario)
             ->whereDate('fecha', '>=', Carbon::today()->subDays(7))
             ->orderBy('fecha', 'desc')
             ->orderBy('hora_inicio', 'asc')
-            ->paginate(15);
+            ->paginate($perPage)
+            ->withQueryString();
 
         $totalBloqueos = Disponibilidad::where('id_barbero', $user->id_usuario)
             ->where('disponible', false)
@@ -70,11 +76,11 @@ class BarberoDisponibilidadController extends Controller
             'accion' => 'REGISTRO_DISPONIBILIDAD_BARBERO',
             'resultado' => 'EXITO',
             'entidad_afectada' => 'disponibilidad',
-            'detalle' => "El barbero registró {$tipo} para el {$validated['fecha']} ({$validated['hora_inicio']} - {$validated['hora_fin']})",
+            'detalle' => "El barbero registró {$tipo} para el {$validated['fecha']} ({$disponibilidad->franja_12})",
             'observacion' => $validated['motivo'] ?? null,
         ]);
 
-        return back()->with('Franja de horario actualizada exitosamente.');
+        return back()->with('success', 'Franja de horario actualizada exitosamente.');
     }
 
     /**
@@ -85,7 +91,7 @@ class BarberoDisponibilidadController extends Controller
         $user = Auth::user();
 
         if ($disponibilidad->id_barbero != $user->id_usuario) {
-            return back()->with('Acción no permitida.');
+            return back()->with('error', 'Acción no permitida.');
         }
 
         $disponibilidad->delete();
@@ -95,10 +101,10 @@ class BarberoDisponibilidadController extends Controller
             'accion' => 'ELIMINAR_DISPONIBILIDAD_BARBERO',
             'resultado' => 'EXITO',
             'entidad_afectada' => 'disponibilidad',
-            'detalle' => "Franja horaria del {$disponibilidad->fecha} eliminada con éxito",
+            'detalle' => "Franja horaria del {$disponibilidad->fecha->format('d/m/Y')} ({$disponibilidad->franja_12}) eliminada con éxito",
             'observacion' => null,
         ]);
 
-        return back()->with('Franja horaria liberada exitosamente.');
+        return back()->with('success', 'Franja horaria liberada exitosamente.');
     }
 }

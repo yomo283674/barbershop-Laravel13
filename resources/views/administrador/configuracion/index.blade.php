@@ -20,7 +20,7 @@
             @if($config->fecha_actualizacion)
                 <div class="text-xs text-slate-400 bg-white border border-slate-200/80 rounded-xl px-3 py-2 shadow-2xs flex items-center gap-2">
                     <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
-                    <span>Último ajuste: <b>{{ \Carbon\Carbon::parse($config->fecha_actualizacion)->format('d/m/Y H:i') }}</b> por <b>{{ $config->administrador->nombre ?? 'Admin' }}</b></span>
+                    <span>Último ajuste: <b>{{ \Carbon\Carbon::parse($config->fecha_actualizacion)->format('d/m/Y h:i A') }}</b> por <b>{{ $config->administrador->nombre ?? 'Admin' }}</b></span>
                 </div>
             @endif
         </div>
@@ -76,21 +76,35 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Horario de Apertura</label>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Horario de Apertura</label>
+                            <span id="badge_apertura_12" class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 font-bold text-xs font-mono">
+                                {{ $config->horario_apertura_12 }}
+                            </span>
+                        </div>
                         <input type="time" 
                             name="horario_apertura" 
+                            id="input_horario_apertura"
                             value="{{ old('horario_apertura', substr($config->horario_apertura, 0, 5)) }}" 
                             required 
+                            oninput="actualizarBadgeHora(this.value, 'badge_apertura_12')"
                             class="w-full p-2.5 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 font-mono">
                         <p class="text-[11px] text-slate-400 mt-1">Hora de inicio de turnos</p>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Horario de Cierre</label>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Horario de Cierre</label>
+                            <span id="badge_cierre_12" class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 font-bold text-xs font-mono">
+                                {{ $config->horario_cierre_12 }}
+                            </span>
+                        </div>
                         <input type="time" 
                             name="horario_cierre" 
+                            id="input_horario_cierre"
                             value="{{ old('horario_cierre', substr($config->horario_cierre, 0, 5)) }}" 
                             required 
+                            oninput="actualizarBadgeHora(this.value, 'badge_cierre_12')"
                             class="w-full p-2.5 bg-slate-50 hover:bg-white focus:bg-white border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-amber-400 font-mono">
                         <p class="text-[11px] text-slate-400 mt-1">Hora límite para el último servicio</p>
                     </div>
@@ -185,4 +199,24 @@
             </div>
         </form>
     </div>
+
+@push('scripts')
+<script>
+    function actualizarBadgeHora(valor24, badgeId) {
+        if (!valor24) return;
+        const partes = valor24.split(':');
+        if (partes.length >= 2) {
+            let hora = parseInt(partes[0], 10);
+            const min = partes[1];
+            const ampm = hora >= 12 ? 'PM' : 'AM';
+            hora = hora % 12 || 12;
+            const strHora = String(hora).padStart(2, '0');
+            const badge = document.getElementById(badgeId);
+            if (badge) {
+                badge.textContent = `${strHora}:${min} ${ampm}`;
+            }
+        }
+    }
+</script>
+@endpush
 @endsection

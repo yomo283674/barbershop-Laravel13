@@ -222,7 +222,7 @@
         </div>
 
         <!-- Tabla de Registros de Auditoría -->
-        <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+        <div id="tablaAuditoriaCard" class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
             
             <!-- Toolbar Superior de la Tabla -->
             <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between gap-3 bg-slate-50/40">
@@ -260,7 +260,7 @@
                                 <td class="py-4 px-5 sm:px-6 whitespace-nowrap">
                                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-100/90 border border-slate-200/80 font-mono text-xs font-semibold text-slate-700">
                                         <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-600"></i>
-                                        <span>{{ \Carbon\Carbon::parse($log->fecha_hora)->format('d/m/Y H:i:s') }}</span>
+                                        <span>{{ \Carbon\Carbon::parse($log->fecha_hora)->format('d/m/Y h:i:s A') }}</span>
                                     </span>
                                 </td>
 
@@ -666,7 +666,7 @@
                                     {{ $rep->fecha_inicio }} a {{ $rep->fecha_fin }}
                                 </td>
                                 <td class="py-4 px-4 sm:px-6 font-mono text-slate-400 text-xs whitespace-nowrap">
-                                    {{ \Carbon\Carbon::parse($rep->fecha_generacion)->format('d/m/Y H:i') }}
+                                    {{ \Carbon\Carbon::parse($rep->fecha_generacion)->format('d/m/Y h:i A') }}
                                 </td>
                                 <td class="py-4 px-5 sm:px-6 text-right whitespace-nowrap">
                                     <button type="button" 
@@ -749,31 +749,50 @@
 </div>
 
 <!-- 2. Modal Detalle de Reporte -->
-<div id="modalDetalleReporte" class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-7 shadow-2xl border border-slate-200 animate-scale-up max-h-[88vh] overflow-y-auto">
-        <div class="flex items-center justify-between pb-4 border-b border-slate-100">
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center shrink-0">
-                    <i data-lucide="bar-chart-2" class="w-5 h-5 text-amber-600"></i>
+<div id="modalDetalleReporte" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-xl sm:max-w-2xl w-full p-6 sm:p-7 shadow-2xl border border-slate-200/90 animate-scale-up max-h-[92vh] overflow-y-auto relative my-auto">
+        <!-- Ambient radial glow -->
+        <div class="absolute -top-12 -right-12 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 relative z-10">
+            <div class="flex items-center gap-3.5 min-w-0">
+                <div id="detalleReporteIconoWrapper" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500/20 via-amber-100/70 to-amber-50 border border-amber-300/80 text-amber-700 flex items-center justify-center shrink-0 shadow-sm">
+                    <i id="detalleReporteIcono" data-lucide="bar-chart-3" class="w-6 h-6 stroke-[2]"></i>
                 </div>
-                <div>
-                    <h3 class="text-lg font-bold text-slate-900 font-serif" id="detalleReporteTitulo">Resumen de Reporte</h3>
-                    <p class="text-xs text-slate-400">Detalle consolidado del informe ejecutivo</p>
+                <div class="min-w-0">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span id="detalleReporteIdBadge" class="font-mono text-xs font-extrabold text-amber-900 bg-amber-50 border border-amber-200/90 px-2 py-0.5 rounded-lg shadow-2xs">#1</span>
+                        <h3 class="text-lg sm:text-xl font-bold text-slate-900 font-serif tracking-tight truncate" id="detalleReporteTitulo">Resumen Ejecutivo</h3>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5 font-medium truncate" id="detalleReporteSubtitulo">Consolidado general de operaciones, efectividad y finanzas</p>
                 </div>
             </div>
-            <button type="button" onclick="closeModal('modalDetalleReporte')" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-xl hover:bg-slate-100 transition-colors">
+            <button type="button" onclick="closeModal('modalDetalleReporte')" class="w-9 h-9 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 flex items-center justify-center transition-colors cursor-pointer shrink-0 ml-2" title="Cerrar modal">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
         </div>
 
-        <div id="detalleReporteCuerpo" class="mt-5 space-y-3 text-xs">
-            <!-- Dinámico -->
+        <!-- Cuerpo Dinámico -->
+        <div id="detalleReporteCuerpo" class="my-5 space-y-4 text-xs relative z-10">
+            <!-- Renderizado dinámico -->
         </div>
 
-        <div class="pt-4 border-t border-slate-100 flex justify-end mt-4">
-            <button type="button" onclick="closeModal('modalDetalleReporte')" class="px-5 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors cursor-pointer">
-                Cerrar
-            </button>
+        <!-- Footer -->
+        <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3 relative z-10">
+            <div class="flex items-center gap-2 text-slate-400 text-xs">
+                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+                <span id="detalleReportePieTexto" class="text-[11px] text-slate-500 font-medium">Informe analítico auditado por el sistema</span>
+            </div>
+            <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+                <button type="button" onclick="window.print()" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 hover:text-slate-950 hover:bg-slate-50 text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs">
+                    <i data-lucide="printer" class="w-3.5 h-3.5 text-slate-500"></i>
+                    <span>Imprimir</span>
+                </button>
+                <button type="button" onclick="closeModal('modalDetalleReporte')" class="px-5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer">
+                    Cerrar
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -783,7 +802,49 @@
 @push('scripts')
 <script>
     function mostrarDatosReporte(rep) {
-        document.getElementById('detalleReporteTitulo').innerText = `Reporte #${rep.id_reporte}: ${rep.tipo_reporte}`;
+        const titulosReporte = {
+            'RESUMEN_EJECUTIVO': {
+                titulo: 'Resumen Ejecutivo',
+                subtitulo: 'Consolidado general de operaciones, efectividad y finanzas',
+                icono: 'trending-up'
+            },
+            'FINANCIERO_VENTAS': {
+                titulo: 'Reporte Financiero y Ventas',
+                subtitulo: 'Facturación, recaudo total y balance económico del periodo',
+                icono: 'dollar-sign'
+            },
+            'PRODUCTIVIDAD_EQUIPO': {
+                titulo: 'Productividad del Equipo',
+                subtitulo: 'Rendimiento y volumen de servicios ejecutados por el equipo',
+                icono: 'users'
+            },
+            'OPERACION_SALA': {
+                titulo: 'Operación en Sala y Espera',
+                subtitulo: 'Flujo de clientes, tiempos y cancelaciones en el salón',
+                icono: 'scissors'
+            }
+        };
+
+        const infoReporte = titulosReporte[rep.tipo_reporte] || {
+            titulo: (rep.tipo_reporte || 'Reporte').replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, l => l.toUpperCase()),
+            subtitulo: 'Detalle consolidado del informe analítico',
+            icono: 'bar-chart-3'
+        };
+
+        const badgeEl = document.getElementById('detalleReporteIdBadge');
+        if (badgeEl) badgeEl.innerText = `#${rep.id_reporte}`;
+
+        const tituloEl = document.getElementById('detalleReporteTitulo');
+        if (tituloEl) tituloEl.innerText = infoReporte.titulo;
+
+        const subtituloEl = document.getElementById('detalleReporteSubtitulo');
+        if (subtituloEl) subtituloEl.innerText = infoReporte.subtitulo;
+
+        const iconEl = document.getElementById('detalleReporteIcono');
+        if (iconEl) {
+            iconEl.setAttribute('data-lucide', infoReporte.icono);
+        }
+
         const contenedor = document.getElementById('detalleReporteCuerpo');
         
         let datos = {};
@@ -793,34 +854,207 @@
             datos = { contenido: rep.datos };
         }
 
-        let html = `
-            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80 space-y-1.5 mb-3">
-                <div class="flex justify-between font-bold text-slate-900 text-xs">
-                    <span>Periodo Analizado:</span>
-                    <span class="font-mono text-amber-800">${rep.fecha_inicio} al ${rep.fecha_fin}</span>
-                </div>
-                <div class="flex justify-between text-slate-500 text-[11px]">
-                    <span>Generado por:</span>
-                    <span class="font-semibold text-slate-700">${rep.generador ? rep.generador.nombre : 'Admin'}</span>
-                </div>
-            </div>
-            <div class="space-y-2">
-        `;
-
-        for (const [key, val] of Object.entries(datos)) {
-            const formattedKey = key.replace(/_/g, ' ').toUpperCase();
-            const formattedVal = typeof val === 'number' && key.includes('ingreso') ? `$${val.toLocaleString('es-CO')}` : val;
-            html += `
-                <div class="flex justify-between items-center py-2 px-3.5 rounded-xl bg-slate-50/70 border border-slate-200/60 hover:bg-white transition-colors">
-                    <span class="text-slate-500 font-semibold text-[11px]">${formattedKey}:</span>
-                    <span class="font-extrabold font-arial text-slate-900 text-xs sm:text-sm">${formattedVal}</span>
-                </div>
-            `;
+        function formatearFechaReporte(fechaStr) {
+            if (!fechaStr) return 'N/A';
+            const cleanDate = String(fechaStr).split('T')[0];
+            const partes = cleanDate.split('-');
+            if (partes.length === 3) {
+                const meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+                const dia = parseInt(partes[2], 10);
+                const mes = meses[parseInt(partes[1], 10) - 1] || partes[1];
+                const anio = partes[0];
+                return `${dia} ${mes}, ${anio}`;
+            }
+            return cleanDate;
         }
 
-        html += `</div>`;
+        function formatearMoneda(val) {
+            const num = Number(val) || 0;
+            return '$' + num.toLocaleString('es-CO');
+        }
+
+        function formatearFechaHoraReporte(fechaHoraStr) {
+            if (!fechaHoraStr) return null;
+            try {
+                const d = new Date(fechaHoraStr);
+                if (!isNaN(d.getTime())) {
+                    const pad = (n) => String(n).padStart(2, '0');
+                    const dia = pad(d.getDate());
+                    const mes = pad(d.getMonth() + 1);
+                    const anio = d.getFullYear();
+                    let horas = d.getHours();
+                    const minutos = pad(d.getMinutes());
+                    const ampm = horas >= 12 ? 'PM' : 'AM';
+                    horas = horas % 12 || 12;
+                    return `${dia}/${mes}/${anio} a las ${pad(horas)}:${minutos} ${ampm}`;
+                }
+            } catch(e) {}
+            return String(fechaHoraStr).replace('T', ' ').substring(0, 19);
+        }
+
+        const fechaInicioFormatted = formatearFechaReporte(rep.fecha_inicio);
+        const fechaFinFormatted = formatearFechaReporte(rep.fecha_fin);
+        const generadorNombre = rep.generador && rep.generador.nombre ? rep.generador.nombre : 'Administrador';
+        const generadorInicial = generadorNombre.charAt(0).toUpperCase();
+
+        const fechaEmision = (datos && datos.generado_en) ? datos.generado_en : rep.fecha_generacion;
+        const fechaEmisionFormatted = formatearFechaHoraReporte(fechaEmision);
+        const pieEl = document.getElementById('detalleReportePieTexto');
+        if (pieEl && fechaEmisionFormatted) {
+            pieEl.innerText = `Generado el ${fechaEmisionFormatted}`;
+        }
+
+        const ingresos = datos.ingresos_totales !== undefined ? datos.ingresos_totales : 0;
+        const totalCitas = datos.total_citas !== undefined ? datos.total_citas : 0;
+        const citasCompletadas = datos.citas_completadas !== undefined ? datos.citas_completadas : 0;
+        const citasCanceladas = datos.citas_canceladas !== undefined ? datos.citas_canceladas : 0;
+        const tasaEfectividad = datos.tasa_efectividad !== undefined ? datos.tasa_efectividad : '0%';
+
+        // Claves estándar ya representadas en los KPIs
+        const standardKeys = ['total_citas', 'citas_completadas', 'citas_canceladas', 'tasa_efectividad', 'ingresos_totales', 'periodo', 'generado_en'];
+        const extraKeys = Object.entries(datos).filter(([k]) => !standardKeys.includes(k));
+
+        let html = `
+            <!-- 1. Banner Ejecutivo de Contexto -->
+            <div class="p-4 rounded-2xl bg-gradient-to-r from-slate-950 via-[#141b2d] to-[#0f1422] text-white shadow-md border border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center text-amber-400 shrink-0 shadow-inner">
+                        <i data-lucide="calendar-range" class="w-5 h-5 text-amber-400"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400 block font-sans">Periodo Analizado</span>
+                        <div class="text-sm font-bold text-white flex items-center gap-2 truncate mt-0.5">
+                            <span class="font-sans text-slate-100">${fechaInicioFormatted}</span>
+                            <span class="text-amber-400 font-bold text-xs">➔</span>
+                            <span class="font-sans text-slate-100">${fechaFinFormatted}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2.5 sm:border-l sm:border-white/10 sm:pl-4 shrink-0">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 font-serif font-bold text-xs flex items-center justify-center shadow-xs">
+                        ${generadorInicial}
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400 block font-sans">Generado por</span>
+                        <span class="text-xs font-bold text-slate-200 block">${generadorNombre}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Hero Card Financiera: Ingresos Totales -->
+            <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-500/10 via-amber-50/70 to-white border border-amber-200/90 shadow-xs relative overflow-hidden flex items-center justify-between">
+                <div class="flex items-center gap-3.5">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#d8ba78] via-[#c5a059] to-[#ab873e] text-slate-950 flex items-center justify-center shadow-md shadow-amber-500/20 font-bold shrink-0">
+                        <i data-lucide="wallet" class="w-6 h-6 stroke-[2]"></i>
+                    </div>
+                    <div>
+                        <span class="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-amber-900/90 block">Ingresos Totales Recaudados</span>
+                        <div class="text-2xl sm:text-3xl font-extrabold text-slate-950 font-sans tracking-tight tabular-nums mt-0.5">
+                            ${formatearMoneda(ingresos)}
+                        </div>
+                        <span class="text-[11px] font-medium text-amber-800/90 flex items-center gap-1 mt-0.5">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-700"></i>
+                            Recaudo consolidado por citas completadas
+                        </span>
+                    </div>
+                </div>
+                <div class="hidden sm:block text-right">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-950 border border-amber-300/80 shadow-2xs">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-600 animate-pulse"></span>
+                        Recaudo Efectivo
+                    </span>
+                </div>
+            </div>
+
+            <!-- 3. Grid de Métricas Operativas (4 Tarjetas) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <!-- Total Citas -->
+                <div class="p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-slate-300 transition-all flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Citas</span>
+                        <div class="w-7 h-7 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center">
+                            <i data-lucide="calendar" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2.5">
+                        <span class="text-xl sm:text-2xl font-extrabold text-slate-900 font-sans tabular-nums">${totalCitas}</span>
+                        <span class="text-[10px] text-slate-400 block mt-0.5">Agendadas</span>
+                    </div>
+                </div>
+
+                <!-- Citas Completadas -->
+                <div class="p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-emerald-300 transition-all flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Completadas</span>
+                        <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                            <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2.5">
+                        <span class="text-xl sm:text-2xl font-extrabold text-emerald-600 font-sans tabular-nums">${citasCompletadas}</span>
+                        <span class="text-[10px] text-emerald-700/80 block mt-0.5 font-medium">Atendidas</span>
+                    </div>
+                </div>
+
+                <!-- Citas Canceladas -->
+                <div class="p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-rose-300 transition-all flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Canceladas</span>
+                        <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
+                            <i data-lucide="x-circle" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2.5">
+                        <span class="text-xl sm:text-2xl font-extrabold text-rose-600 font-sans tabular-nums">${citasCanceladas}</span>
+                        <span class="text-[10px] text-rose-700/80 block mt-0.5 font-medium">Anuladas</span>
+                    </div>
+                </div>
+
+                <!-- Tasa de Efectividad -->
+                <div class="p-3.5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs hover:border-indigo-300 transition-all flex flex-col justify-between">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Efectividad</span>
+                        <div class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                            <i data-lucide="percent" class="w-4 h-4"></i>
+                        </div>
+                    </div>
+                    <div class="mt-2.5">
+                        <span class="text-xl sm:text-2xl font-extrabold text-indigo-900 font-sans tabular-nums">${tasaEfectividad}</span>
+                        <span class="text-[10px] text-indigo-700/80 block mt-0.5 font-medium">Éxito en sala</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        if (extraKeys.length > 0) {
+            html += `
+                <div class="p-3.5 rounded-2xl bg-slate-50/80 border border-slate-200/70 space-y-2 mt-3">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block font-sans">Datos Complementarios</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            `;
+            for (const [key, val] of extraKeys) {
+                const formattedKey = key.replace(/_/g, ' ').toUpperCase();
+                let formattedVal = val;
+                if (typeof val === 'number' && key.includes('ingreso')) {
+                    formattedVal = formatearMoneda(val);
+                } else if (typeof val === 'string' && /^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}/.test(val)) {
+                    formattedVal = formatearFechaHoraReporte(val);
+                }
+                html += `
+                    <div class="flex justify-between items-center py-2 px-3 rounded-xl bg-white border border-slate-200/60 shadow-2xs">
+                        <span class="text-slate-500 font-semibold text-[11px]">${formattedKey}:</span>
+                        <span class="font-extrabold text-slate-900 text-xs font-sans">${formattedVal}</span>
+                    </div>
+                `;
+            }
+            html += `</div></div>`;
+        }
+
         contenedor.innerHTML = html;
         openModal('modalDetalleReporte');
+        if (window.lucide) {
+            lucide.createIcons();
+        }
     }
 </script>
 @endpush

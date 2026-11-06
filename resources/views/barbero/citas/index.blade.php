@@ -102,7 +102,7 @@
     </div>
 
     <!-- Tabla de Citas -->
-    <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden">
+    <div id="tablaBarberoCitasCard" class="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
                 <thead class="bg-slate-50/90 border-b border-slate-200/80 text-[11px] font-bold text-slate-400 uppercase tracking-wider font-sans">
@@ -301,8 +301,42 @@
             </table>
         </div>
 
-        <div class="p-4 border-t border-slate-100">
-            {{ $citas->links() }}
+        <!-- Footer con Resumen de Registros, Selector por Página y Paginación Establecida -->
+        <div class="px-5 py-3.5 sm:px-6 border-t border-slate-100 bg-slate-50/60 flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Resumen de registros -->
+            <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                <span>Mostrando</span>
+                <span class="font-bold text-slate-900 font-arial">{{ $citas->firstItem() ?? 0 }}–{{ $citas->lastItem() ?? 0 }}</span>
+                <span class="text-slate-400">de</span>
+                <span class="font-bold text-slate-900 font-arial">{{ $citas->total() }}</span>
+                <span>citas asignadas</span>
+            </div>
+
+            <!-- Toolbar Derecha: Selector de Filas + Navegación Establecida -->
+            <div class="flex items-center gap-3 sm:gap-4 flex-wrap justify-center md:justify-end">
+                <!-- Selector Cantidad por Página -->
+                <div class="inline-flex items-center gap-1.5">
+                    <span class="text-xs text-slate-400 font-semibold hidden sm:inline">Mostrar:</span>
+                    <div class="inline-flex items-center bg-slate-100/90 p-1 rounded-2xl border border-slate-200/70">
+                        @foreach([5, 10, 15, 25] as $cant)
+                            <a href="{{ request()->fullUrlWithQuery(['per_page' => $cant, 'page' => 1]) }}"
+                            class="px-2.5 py-1 rounded-xl text-xs font-arial transition-all {{ request('per_page', 10) == $cant ? 'bg-white text-slate-950 font-bold shadow-xs border border-slate-200/80' : 'text-slate-500 hover:text-slate-900 hover:bg-white/60 font-semibold' }}">
+                                {{ $cant }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+
+                @if($citas->hasPages())
+                    <span class="h-4 w-px bg-slate-200 hidden sm:block"></span>
+
+                    {{-- Controles de Paginación Establecida del Sistema --}}
+                    <div>
+                        {{ $citas->links('vendor.pagination.custom') }}
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 
@@ -387,8 +421,11 @@
                     <input type="date" name="nueva_fecha" id="inputNuevaFecha" required class="w-full text-xs rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-400 transition-all">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5 tracking-wider">Nueva Hora</label>
-                    <input type="time" name="nueva_hora" id="inputNuevaHora" required class="w-full text-xs rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-400 transition-all">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Nueva Hora</label>
+                        <span id="badge_reprog_hora" class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 font-bold text-xs font-mono">--:-- --</span>
+                    </div>
+                    <input type="time" name="nueva_hora" id="inputNuevaHora" required oninput="actualizarBadgeHora(this.value, 'badge_reprog_hora')" class="w-full text-xs font-mono font-semibold rounded-xl border border-slate-200 bg-slate-50/50 p-2.5 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-400 transition-all">
                 </div>
             </div>
             <div>
@@ -405,6 +442,22 @@
 
 @push('scripts')
 <script>
+    function actualizarBadgeHora(valor24, badgeId) {
+        if (!valor24) return;
+        const partes = valor24.split(':');
+        if (partes.length >= 2) {
+            let hora = parseInt(partes[0], 10);
+            const min = partes[1];
+            const ampm = hora >= 12 ? 'PM' : 'AM';
+            hora = hora % 12 || 12;
+            const strHora = String(hora).padStart(2, '0');
+            const badge = document.getElementById(badgeId);
+            if (badge) {
+                badge.textContent = `${strHora}:${min} ${ampm}`;
+            }
+        }
+    }
+
     function abrirModalFinalizar(idCita, cliente, servicio) {
         document.getElementById('formFinalizar').action = `/barbero/citas/${idCita}/finalizar`;
         document.getElementById('modalFinalizar').classList.remove('hidden');
@@ -425,6 +478,7 @@
         document.getElementById('formReprogramar').action = `/barbero/citas/${idCita}/reprogramar`;
         document.getElementById('inputNuevaFecha').value = fecha;
         document.getElementById('inputNuevaHora').value = hora;
+        actualizarBadgeHora(hora, 'badge_reprog_hora');
         document.getElementById('modalReprogramar').classList.remove('hidden');
     }
     function cerrarModalReprogramar() {

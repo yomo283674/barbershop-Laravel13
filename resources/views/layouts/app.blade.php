@@ -138,9 +138,28 @@
         @include('layouts.partials.alert')
 
         <!-- Dynamic Page Content -->
-        <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-[#f8fafc]">
+        <main id="mainScrollContainer" class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 bg-[#f8fafc]">
             @yield('content')
         </main>
+
+        <!-- Restauración Inmediata de Scroll para Paginación (Pre-Paint) -->
+        <script>
+            (function() {
+                try {
+                    const raw = sessionStorage.getItem('barbershop_pagination_scroll');
+                    if (!raw) return;
+                    const data = JSON.parse(raw);
+                    if (Date.now() - data.timestamp > 15000 || data.pathname !== window.location.pathname) {
+                        sessionStorage.removeItem('barbershop_pagination_scroll');
+                        return;
+                    }
+                    const main = document.getElementById('mainScrollContainer');
+                    if (main && typeof data.targetScrollTop === 'number') {
+                        main.scrollTop = data.targetScrollTop;
+                    }
+                } catch(e) {}
+            })();
+        </script>
     </div>
 
     <!-- Scripts -->
@@ -254,24 +273,29 @@
             }
         });
 
+        // Reusable Barbershop Luxury Alert Mixin
+        window.swalBarbershop = Swal.mixin({
+            customClass: {
+                popup: "rounded-3xl border border-stone-200/90 shadow-2xl p-6",
+                title: "font-serif text-slate-900 font-bold text-xl",
+                htmlContainer: "text-slate-600 text-sm",
+                confirmButton: "btn btn-barber-gold",
+                cancelButton: "btn btn-barber-dark"
+            },
+            buttonsStyling: false,
+            heightAuto: false
+        });
+
         // Global SweetAlert2 Confirmation Dialog
         window.confirmarEliminacion = function(event, form, options = {}) {
             if (event) event.preventDefault();
 
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: "btn btn-success",
-                    cancelButton: "btn btn-danger"
-                },
-                buttonsStyling: false,
-                heightAuto: false
-            });
-
-            swalWithBootstrapButtons.fire({
+            window.swalBarbershop.fire({
                 position: "center",
                 title: options.title || "¿Estás seguro?",
                 text: options.text || "¡No podrás revertir esto!",
                 icon: options.icon || "warning",
+                iconColor: options.iconColor || "#c5a059",
                 showCancelButton: true,
                 confirmButtonText: options.confirmText || "¡Sí, eliminar!",
                 cancelButtonText: options.cancelText || "No, cancelar!",
@@ -280,7 +304,7 @@
                 if (result.isConfirmed) {
                     if (form) form.submit();
                 } else if (result.dismiss === Swal.DismissReason.cancel && options.showCancelAlert === true) {
-                    swalWithBootstrapButtons.fire({
+                    window.swalBarbershop.fire({
                         position: "center",
                         title: options.cancelTitle || "Cancelado",
                         text: options.cancelTextMsg || "Tu registro sigue a salvo :)",
@@ -292,25 +316,14 @@
 
         window.confirmarAccion = window.confirmarEliminacion;
 
+        // Global Confirmation for Logout
         window.confirmarCerrarSesion = function(event, form) {
             if (event) event.preventDefault();
             if (typeof closeSettingsMenu === 'function') {
                 closeSettingsMenu();
             }
 
-            const swalBarbershop = Swal.mixin({
-                customClass: {
-                    popup: "rounded-3xl border border-stone-200/90 shadow-2xl p-6",
-                    title: "font-serif text-slate-900 font-bold text-xl",
-                    htmlContainer: "text-slate-600 text-sm",
-                    confirmButton: "btn btn-barber-gold",
-                    cancelButton: "btn btn-barber-dark"
-                },
-                buttonsStyling: false,
-                heightAuto: false
-            });
-
-            swalBarbershop.fire({
+            window.swalBarbershop.fire({
                 position: "center",
                 title: "¿Cerrar sesión?",
                 text: "¿Estás seguro de que deseas finalizar tu sesión actual?",
@@ -321,11 +334,175 @@
                 cancelButtonText: "No, cancelar",
                 reverseButtons: true
             }).then((result) => {
-                if (result.isConfirmed) {
-                    if (form) form.submit();
+                if (result.isConfirmed && form) {
+                    form.submit();
                 }
             });
         };
+
+        // Global Confirmation for Appointment Cancellation
+        window.confirmarCancelacionCita = function(event, form) {
+            if (event) event.preventDefault();
+
+            window.swalBarbershop.fire({
+                position: "center",
+                title: "¿Deseas cancelar esta cita?",
+                text: "Ten presente que las cancelaciones están sujetas al tiempo mínimo de anticipación configurado.",
+                icon: "warning",
+                iconColor: "#c5a059",
+                showCancelButton: true,
+                confirmButtonText: "Sí, cancelar cita",
+                cancelButtonText: "Conservar cita",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed && form) {
+                    form.submit();
+                }
+            });
+        };
+
+        /* ==========================================================================
+           Reposicionamiento Inteligente del Scroll en Paginación (Enfoque A)
+           ========================================================================== */
+        (function() {
+            function getMainContainer() {
+                return document.getElementById('mainScrollContainer') || document.querySelector('main.overflow-y-auto') || document.querySelector('main');
+            }
+
+            function getOffsetRelativeToMain(el, main) {
+                if (!el || !main) return 0;
+                const mainRect = main.getBoundingClientRect();
+                const elRect = el.getBoundingClientRect();
+                // Margen superior de 16px para que el encabezado del bloque no quede pegado al topbar
+                const computed = main.scrollTop + (elRect.top - mainRect.top) - 16;
+                return Math.max(0, Math.round(computed));
+            }
+
+            function resolvePaginationTarget(link, main) {
+                // 1. Selector explícito si el enlace o contenedor lo define
+                const explicitSelector = link.getAttribute('data-scroll-target') || 
+                                         link.closest('[data-scroll-target]')?.getAttribute('data-scroll-target');
+                if (explicitSelector) {
+                    const el = document.querySelector(explicitSelector);
+                    if (el) return { el, selector: explicitSelector };
+                }
+
+                // 2. Tarjeta contenedora de la paginación
+                const card = link.closest('.bg-white.rounded-3xl, .bg-white.rounded-2xl, [data-pagination-card]');
+                if (card) {
+                    const hasData = card.querySelector('table, #contenedorServicios, [data-pagination-content], .category-block') ||
+                                    (card.querySelector('.grid') && !card.querySelector('.grid').contains(link));
+                    
+                    if (hasData) {
+                        return { el: card, selector: card.id ? '#' + card.id : null };
+                    } else if (card.previousElementSibling) {
+                        const prev = card.previousElementSibling;
+                        return { el: prev, selector: prev.id ? '#' + prev.id : null };
+                    }
+                    return { el: card, selector: card.id ? '#' + card.id : null };
+                }
+
+                // 3. Fallback: buscar tabla o catálogo principal en main
+                const fallback = main.querySelector('table')?.closest('.bg-white') ||
+                                 main.querySelector('#contenedorServicios')?.closest('.bg-white') ||
+                                 main.querySelector('.grid')?.closest('.bg-white') ||
+                                 main.querySelector('table');
+                if (fallback) {
+                    return { el: fallback, selector: fallback.id ? '#' + fallback.id : null };
+                }
+
+                return { el: null, selector: null };
+            }
+
+            function isPaginationLink(link) {
+                if (!link || !link.href) return false;
+                if (link.closest('[data-pagination-nav]') || link.closest('nav[role="navigation"]') || link.closest('.pagination')) {
+                    return true;
+                }
+                try {
+                    const url = new URL(link.href, window.location.origin);
+                    if (url.origin === window.location.origin && url.pathname === window.location.pathname) {
+                        if (url.searchParams.has('page') || url.searchParams.has('per_page')) {
+                            return true;
+                        }
+                    }
+                } catch(err) {
+                    const href = link.getAttribute('href') || '';
+                    if (href.includes('page=') || href.includes('per_page=')) return true;
+                }
+                return false;
+            }
+
+            // Captura de clics en enlaces de paginación antes de descargar la página
+            document.addEventListener('click', function(e) {
+                if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+                const link = e.target.closest('a');
+                if (!link || !isPaginationLink(link)) return;
+
+                const main = getMainContainer();
+                if (!main) return;
+
+                const target = resolvePaginationTarget(link, main);
+                const offsetTop = target.el ? getOffsetRelativeToMain(target.el, main) : Math.max(0, Math.round(main.scrollTop));
+
+                const payload = {
+                    pathname: window.location.pathname,
+                    targetScrollTop: offsetTop,
+                    selector: target.selector,
+                    timestamp: Date.now()
+                };
+
+                try {
+                    sessionStorage.setItem('barbershop_pagination_scroll', JSON.stringify(payload));
+                } catch(err) {}
+            }, { capture: true });
+
+            // Verificación y ajuste post-renderizado en DOMContentLoaded y Load
+            function verifyPaginationScroll() {
+                try {
+                    const raw = sessionStorage.getItem('barbershop_pagination_scroll');
+                    if (!raw) return;
+                    const data = JSON.parse(raw);
+                    sessionStorage.removeItem('barbershop_pagination_scroll');
+
+                    if (Date.now() - data.timestamp > 15000 || data.pathname !== window.location.pathname) return;
+
+                    const main = getMainContainer();
+                    if (!main) return;
+
+                    let finalScrollTop = data.targetScrollTop;
+
+                    if (data.selector) {
+                        const el = document.querySelector(data.selector);
+                        if (el) {
+                            finalScrollTop = getOffsetRelativeToMain(el, main);
+                        }
+                    }
+
+                    if (typeof finalScrollTop === 'number') {
+                        main.scrollTop = finalScrollTop;
+                        requestAnimationFrame(() => {
+                            if (data.selector) {
+                                const el = document.querySelector(data.selector);
+                                if (el) {
+                                    const adjusted = getOffsetRelativeToMain(el, main);
+                                    if (Math.abs(adjusted - main.scrollTop) > 4) {
+                                        main.scrollTop = adjusted;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                } catch(e) {}
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', verifyPaginationScroll);
+            } else {
+                verifyPaginationScroll();
+            }
+            window.addEventListener('load', verifyPaginationScroll);
+        })();
     </script>
     @stack('scripts')
 </body>

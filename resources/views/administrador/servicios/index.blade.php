@@ -167,10 +167,10 @@
     </div>
 
     <!-- Contenedor Principal del Catálogo de Servicios (Sin hilera infinita vertical) -->
-    <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col">
+    <div id="catalogoServiciosCard" class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col">
         
         <!-- Header del Contenedor de Servicios -->
-        <div class="p-5 sm:p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-amber-600 flex items-center justify-center shrink-0 shadow-2xs">
                     <i data-lucide="scissors" class="w-5 h-5"></i>
@@ -186,26 +186,6 @@
                     </div>
                     <p class="text-xs text-slate-400 mt-0.5">Precios oficiales, duraciones estimadas y barberos especialistas asignados</p>
                 </div>
-            </div>
-
-            <!-- Selector de Vista (Filas Compactas vs Cuadrícula) -->
-            <div class="inline-flex items-center gap-1 bg-slate-100/90 p-1 rounded-2xl border border-slate-200/70 shrink-0">
-                <button type="button" 
-                        id="btnViewFilas"
-                        onclick="setServiciosView('filas')" 
-                        class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 bg-white text-slate-950 shadow-xs border border-slate-200/80 cursor-pointer"
-                        title="Vista en Filas Compactas">
-                    <i data-lucide="rows-3" class="w-3.5 h-3.5 text-amber-600"></i>
-                    <span>Compacta</span>
-                </button>
-                <button type="button" 
-                        id="btnViewGrid"
-                        onclick="setServiciosView('grid')" 
-                        class="px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-900 transition-all flex items-center gap-1.5 border border-transparent cursor-pointer"
-                        title="Vista en Cuadrícula">
-                    <i data-lucide="grid-2x2" class="w-3.5 h-3.5"></i>
-                    <span>Cuadrícula</span>
-                </button>
             </div>
         </div>
 
@@ -236,104 +216,8 @@
                         </span>
                     </div>
 
-                    <!-- VISTA 1: Filas Compactas y Responsivas (Por Defecto) -->
-                    <div class="view-filas space-y-2.5">
-                        @foreach($itemsDeCategoria as $servicio)
-                            <div class="group p-3.5 sm:p-4 rounded-2xl bg-white hover:bg-slate-50/90 border border-slate-200/80 hover:border-amber-400/50 shadow-2xs hover:shadow-xs transition-all flex flex-col md:flex-row md:items-center justify-between gap-3 {{ $servicio->estado === 'INACTIVO' ? 'opacity-70 bg-slate-50/40' : '' }}">
-                                
-                                <!-- Columna 1: Imagen del Servicio + Nombre + Descripción -->
-                                <div class="flex items-center gap-3.5 min-w-0 md:w-5/12">
-                                    <div class="relative w-12 h-12 rounded-2xl overflow-hidden shrink-0 border border-slate-200/90 group-hover:border-amber-400/60 shadow-2xs group-hover:scale-105 transition-all duration-300 bg-slate-900 flex items-center justify-center cursor-pointer"
-                                        @if($servicio->imagen) onclick="verFotoServicio('{{ asset($servicio->imagen) }}', '{{ addslashes($servicio->nombre) }}')" title="Clic para ampliar foto" @endif>
-                                        @if($servicio->imagen)
-                                            <img src="{{ asset($servicio->imagen) }}" 
-                                                alt="{{ $servicio->nombre }}" 
-                                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                                loading="lazy">
-                                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/25 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                                                <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-white drop-shadow-md"></i>
-                                            </div>
-                                        @else
-                                            <div class="w-full h-full bg-amber-500/10 text-amber-700 flex items-center justify-center font-bold">
-                                                <i data-lucide="scissors" class="w-4 h-4"></i>
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="min-w-0">
-                                        <h4 class="font-bold text-slate-900 text-sm truncate group-hover:text-amber-800 transition-colors font-serif">
-                                            {{ $servicio->nombre }}
-                                        </h4>
-                                        <p class="text-xs text-slate-400 truncate mt-0.5" title="{{ $servicio->descripcion }}">
-                                            {{ $servicio->descripcion ?? 'Servicio profesional de barbería con acabados premium.' }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Columna 2: Atributos (Duración & Especialista) -->
-                                <div class="flex items-center gap-2 flex-wrap text-xs md:w-3/12">
-                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-slate-100 border border-slate-200/80 font-medium text-slate-700 shrink-0">
-                                        <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-600"></i>
-                                        <span><strong class="font-arial font-bold">{{ $servicio->duracion_min }}</strong> min</span>
-                                    </span>
-                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-slate-100 border border-slate-200/80 font-medium text-slate-700 truncate" title="{{ $servicio->barbero ? $servicio->barbero->nombre : 'Cualquier barbero' }}">
-                                        <i data-lucide="user" class="w-3.5 h-3.5 text-slate-400"></i>
-                                        <span class="truncate">{{ $servicio->barbero ? $servicio->barbero->nombre : 'General' }}</span>
-                                    </span>
-                                </div>
-
-                                <!-- Columna 3: Tarifa + Estado + Acciones -->
-                                <div class="flex items-center justify-between md:justify-end gap-3.5 shrink-0 pt-2.5 md:pt-0 border-t md:border-t-0 border-slate-100 md:w-4/12">
-                                    <!-- Tarifa Oficial con Tipografía Arial -->
-                                    <div class="text-right">
-                                        <span class="text-sm sm:text-base font-extrabold font-arial text-slate-900 block leading-none tracking-tight">
-                                            ${{ number_format($servicio->precio, 0) }}
-                                        </span>
-                                    </div>
-
-                                    <!-- Estado Badge -->
-                                    <div>
-                                        @if($servicio->estado === 'ACTIVO')
-                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200/90 shadow-2xs">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                                <span>Activo</span>
-                                            </span>
-                                        @else
-                                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-600 border border-slate-200 shadow-2xs">
-                                                <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
-                                                <span>Inactivo</span>
-                                            </span>
-                                        @endif
-                                    </div>
-
-                                    <!-- Botones de Acción -->
-                                    <div class="flex items-center gap-1.5">
-                                        <!-- Toggle Estado -->
-                                        <form method="POST" action="{{ route('admin.servicios.estado', $servicio) }}" class="inline">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" 
-                                                    class="p-2 rounded-xl text-xs font-bold transition-all cursor-pointer {{ $servicio->estado === 'ACTIVO' ? 'text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200/70' : 'text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/70' }}"
-                                                    title="{{ $servicio->estado === 'ACTIVO' ? 'Pausar disponibilidad' : 'Activar en carta' }}">
-                                                <i data-lucide="{{ $servicio->estado === 'ACTIVO' ? 'pause' : 'play' }}" class="w-3.5 h-3.5"></i>
-                                            </button>
-                                        </form>
-
-                                        <!-- Editar Servicio -->
-                                        <button type="button" 
-                                                onclick="abrirModalEditarServicio({{ json_encode($servicio) }})" 
-                                                class="p-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shadow-2xs cursor-pointer"
-                                                title="Editar detalles del servicio">
-                                            <i data-lucide="edit-3" class="w-3.5 h-3.5 text-amber-400"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <!-- VISTA 2: Cuadrícula con Tarjetas Visuales y Fotos -->
-                    <div class="view-grid hidden grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Cuadrícula con Tarjetas Visuales y Fotos -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         @foreach($itemsDeCategoria as $servicio)
                             <div class="group rounded-3xl bg-white hover:bg-slate-50/90 border border-slate-200/80 hover:border-amber-400/50 shadow-2xs hover:shadow-sm transition-all flex flex-col justify-between overflow-hidden {{ $servicio->estado === 'INACTIVO' ? 'opacity-75 bg-slate-50/40' : '' }}">
                                 <!-- Header Visual con Imagen del Servicio -->
@@ -358,13 +242,8 @@
                                         </div>
                                     @endif
 
-                                    <!-- Badges flotantes sobre la imagen -->
-                                    <div class="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between pointer-events-none">
-                                        <span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-slate-950/85 backdrop-blur-md px-2.5 py-1 rounded-lg border border-amber-500/30 shadow-xs">
-                                            <i data-lucide="scissors" class="w-3 h-3 text-amber-400"></i>
-                                            {{ $nombreCategoria }}
-                                        </span>
-
+                                    <!-- Badge Superior de Estado -->
+                                    <div class="absolute top-2.5 right-2.5 flex items-center pointer-events-none">
                                         @if($servicio->estado === 'ACTIVO')
                                             <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/90 text-white backdrop-blur-md shadow-xs border border-emerald-400/30">
                                                 <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
@@ -808,40 +687,19 @@
 
 @push('scripts')
 <script>
-    function setServiciosView(viewType) {
-        const filasViews = document.querySelectorAll('.view-filas');
-        const gridViews = document.querySelectorAll('.view-grid');
-        const btnFilas = document.getElementById('btnViewFilas');
-        const btnGrid = document.getElementById('btnViewGrid');
-
-        if (viewType === 'grid') {
-            filasViews.forEach(el => el.classList.add('hidden'));
-            gridViews.forEach(el => {
-                el.classList.remove('hidden');
-                el.classList.add('grid');
-            });
-            btnGrid.classList.add('bg-white', 'text-slate-950', 'shadow-xs', 'border-slate-200/80');
-            btnGrid.classList.remove('text-slate-500');
-            btnFilas.classList.remove('bg-white', 'text-slate-950', 'shadow-xs', 'border-slate-200/80');
-            btnFilas.classList.add('text-slate-500');
-        } else {
-            filasViews.forEach(el => el.classList.remove('hidden'));
-            gridViews.forEach(el => {
-                el.classList.add('hidden');
-                el.classList.remove('grid');
-            });
-            btnFilas.classList.add('bg-white', 'text-slate-950', 'shadow-xs', 'border-slate-200/80');
-            btnFilas.classList.remove('text-slate-500');
-            btnGrid.classList.remove('bg-white', 'text-slate-950', 'shadow-xs', 'border-slate-200/80');
-            btnGrid.classList.add('text-slate-500');
-        }
-    }
-
     function previewImagenAdmin(input, previewImgId, placeholderId, removeBtnId) {
         if (input.files && input.files[0]) {
             const file = input.files[0];
             if (file.size > 5 * 1024 * 1024) {
-                alert('La imagen seleccionada supera el límite de 5MB.');
+                if (window.swalBarbershop) {
+                    window.swalBarbershop.fire({
+                        title: 'Archivo demasiado grande',
+                        text: 'La imagen seleccionada supera el límite máximo de 5MB.',
+                        icon: 'warning'
+                    });
+                } else {
+                    alert('La imagen seleccionada supera el límite máximo de 5MB.');
+                }
                 input.value = '';
                 return;
             }

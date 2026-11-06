@@ -41,9 +41,14 @@ class BarberoCitaController extends Controller
             });
         }
 
+        $perPage = (int) $request->input('per_page', 10);
+        if (! in_array($perPage, [5, 10, 15, 25])) {
+            $perPage = 10;
+        }
+
         $citas = $query->orderBy('fecha', 'desc')
             ->orderBy('hora', 'asc')
-            ->paginate(15)
+            ->paginate($perPage)
             ->withQueryString();
 
         // Conteos consolidados para tabs de navegación rápida del barbero
@@ -80,7 +85,7 @@ class BarberoCitaController extends Controller
         $user = Auth::user();
 
         if ($cita->id_barbero != $user->id_usuario) {
-            return back()->with('No puedes gestionar citas de otros barberos.');
+            return back()->with('error', 'No puedes gestionar citas de otros barberos.');
         }
 
         $validated = $request->validate([
@@ -135,7 +140,7 @@ class BarberoCitaController extends Controller
         $user = Auth::user();
 
         if ($cita->id_barbero != $user->id_usuario) {
-            return back()->with('Acción no permitida.');
+            return back()->with('error', 'Acción no permitida.');
         }
 
         // Si ya hay un cliente en atención para este barbero, advertir o finalizarlo
@@ -144,7 +149,7 @@ class BarberoCitaController extends Controller
         })->where('estado', 'EN_ATENCION')->first();
 
         if ($clienteEnAtencion && $clienteEnAtencion->id_cita != $cita->id_cita) {
-            return back()->with('Ya tienes un cliente en silla de atención. Finaliza el servicio actual primero.');
+            return back()->with('warning', 'Ya tienes un cliente en silla de atención. Finaliza el servicio actual primero.');
         }
 
         // Crear o actualizar turno a EN_ATENCION
@@ -174,7 +179,7 @@ class BarberoCitaController extends Controller
             'observacion' => "Servicio: {$cita->servicio->nombre}",
         ]);
 
-        return back()->with("¡Servicio iniciado en silla con {$cita->cliente->nombre}!");
+        return back()->with('success', "¡Servicio iniciado en silla con {$cita->cliente->nombre}!");
     }
 
     /**
@@ -185,7 +190,7 @@ class BarberoCitaController extends Controller
         $user = Auth::user();
 
         if ($cita->id_barbero != $user->id_usuario) {
-            return back()->with('Acción no permitida.');
+            return back()->with('error', 'Acción no permitida.');
         }
 
         $validated = $request->validate([
@@ -215,7 +220,7 @@ class BarberoCitaController extends Controller
             'observacion' => $validated['observacion'] ?? 'Servicio finalizado con satisfacción',
         ]);
 
-        return back()->with('¡Servicio completado exitosamente! Has sumado $'.number_format($comision, 2).' en comisión.');
+        return back()->with('success', '¡Servicio completado exitosamente! Has sumado $'.number_format($comision, 2).' en comisión.');
     }
 
     /**
@@ -226,7 +231,7 @@ class BarberoCitaController extends Controller
         $user = Auth::user();
 
         if ($cita->id_barbero != $user->id_usuario) {
-            return back()->with('Acción no autorizada.');
+            return back()->with('error', 'Acción no autorizada.');
         }
 
         $validated = $request->validate([
@@ -250,15 +255,17 @@ class BarberoCitaController extends Controller
             'estado' => 'CONFIRMADA',
         ]);
 
+        $horaFormateada12 = Carbon::parse($validated['nueva_hora'])->format('h:i A');
+
         Auditoria::create([
             'id_usuario' => $user->id_usuario,
             'accion' => 'REPROGRAMACION_CITA_BARBERO',
             'resultado' => 'EXITO',
             'entidad_afectada' => 'citas',
-            'detalle' => "Cita #{$cita->id_cita} reprogramada para el {$validated['nueva_fecha']} a las {$validated['nueva_hora']}",
+            'detalle' => "Cita #{$cita->id_cita} reprogramada para el {$validated['nueva_fecha']} a las {$horaFormateada12}",
             'observacion' => $validated['motivo'] ?? null,
         ]);
 
-        return back()->with("Cita reprogramada con éxito para el {$validated['nueva_fecha']} a las {$validated['nueva_hora']}.");
+        return back()->with('success', "Cita reprogramada con éxito para el {$validated['nueva_fecha']} a las {$horaFormateada12}.");
     }
 }

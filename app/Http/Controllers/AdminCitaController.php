@@ -41,9 +41,14 @@ class AdminCitaController extends Controller
             });
         }
 
+        $perPage = (int) $request->input('per_page', 10);
+        if (! in_array($perPage, [5, 10, 15, 20])) {
+            $perPage = 10;
+        }
+
         $citas = $query->orderBy('fecha', 'desc')
             ->orderBy('hora', 'asc')
-            ->paginate(15)
+            ->paginate($perPage)
             ->withQueryString();
 
         // Conteos consolidados para tabs de navegación rápida
@@ -108,7 +113,7 @@ class AdminCitaController extends Controller
         ]);
 
         return redirect()->route('admin.citas.index')
-            ->with("¡Cita #{$cita->id_cita} agendada exitosamente!");
+            ->with('success', "¡Cita #{$cita->id_cita} agendada exitosamente!");
     }
 
     /**
@@ -129,7 +134,7 @@ class AdminCitaController extends Controller
         $cita->update($validated);
 
         return redirect()->route('admin.citas.index')
-            ->with("Cita #{$cita->id_cita} actualizada correctamente.");
+            ->with('success', "Cita #{$cita->id_cita} actualizada correctamente.");
     }
 
     /**
@@ -150,7 +155,7 @@ class AdminCitaController extends Controller
 
         $cita->save();
 
-        return back()->with("La cita #{$cita->id_cita} cambió al estado: {$cita->estado}.");
+        return back()->with('success', "La cita #{$cita->id_cita} cambió al estado: {$cita->estado}.");
     }
 
     /**
@@ -162,6 +167,6 @@ class AdminCitaController extends Controller
         $cita->motivo_cancelacion = $request->input('motivo_cancelacion', 'Cancelada por el administrador');
         $cita->save();
 
-        return back()->with("Cita #{$cita->id_cita} cancelada.");
+        return back()->with('success', "Cita #{$cita->id_cita} cancelada.");
     }
 }

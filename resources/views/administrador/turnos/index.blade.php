@@ -283,7 +283,7 @@
         </div>
 
         <!-- Lista de Turnos de la Jornada (Sin Scroll Horizontal y Totalmente Responsiva) -->
-        <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col">
+        <div id="listaTurnosCard" class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden flex flex-col">
             <!-- Header del Contenedor de Turnos -->
             <div class="p-5 sm:p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>

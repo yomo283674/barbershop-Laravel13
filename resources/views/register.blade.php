@@ -43,19 +43,29 @@
     <!-- Tarjeta de alerta SweetAlert2 y Redirección -->
     @if (session('success'))
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: '{{ session("success") }}',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    timerProgressBar: true
-                }).then(() => {
-                    // Redirigir al login al terminar los segundos de la alerta
-                    window.location.href = "{{ route('login') }}";
-                });
-            });
+            (function() {
+                function triggerRegisterAlert() {
+                    if (typeof Swal !== 'undefined') {
+                        Swal.fire({
+                            position: "center",
+                            icon: "success",
+                            title: @json(session('success')),
+                            showConfirmButton: false,
+                            timer: 2000,
+                            timerProgressBar: true
+                        }).then(() => {
+                            // Redirigir al login al terminar los segundos de la alerta
+                            window.location.href = "{{ route('login') }}";
+                        });
+                    }
+                }
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', triggerRegisterAlert);
+                } else {
+                    triggerRegisterAlert();
+                }
+            })();
         </script>
     @endif
 

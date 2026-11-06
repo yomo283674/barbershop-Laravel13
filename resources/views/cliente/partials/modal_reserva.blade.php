@@ -31,7 +31,7 @@
                 <div class="relative">
                     <select name="id_barbero" id="modalSelectBarbero" required onchange="handleModalBarberoChange(this.value)"
                         class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-[#c5a059] focus:ring-2 focus:ring-[#c5a059]/20 text-sm text-slate-800 bg-slate-50/50 hover:bg-white focus:bg-white font-medium outline-none transition-all cursor-pointer shadow-2xs">
-                        <option value="">-- Selecciona un profesional --</option>
+                        <option value="">Selecciona un profesional</option>
                         @php
                             $barberosParaModal = $todosLosBarberos ?? $barberos;
                         @endphp
@@ -50,12 +50,12 @@
             <div>
                 <label for="modalSelectServicio" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5 flex items-center gap-2">
                     <span class="w-5 h-5 rounded-md bg-amber-100 text-amber-900 border border-amber-300/80 text-[10px] font-bold flex items-center justify-center">2</span>
-                    <span>Servicio del Barbero <span class="text-amber-600">*</span></span>
+                    <span>Servicio del Barbero <span class="text-amber-600"></span></span>
                 </label>
                 <div class="relative">
                     <select name="id_servicio" id="modalSelectServicio" required onchange="handleModalServicioChange()"
                         class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-[#c5a059] focus:ring-2 focus:ring-[#c5a059]/20 text-sm text-slate-800 bg-slate-50/50 hover:bg-white focus:bg-white font-medium outline-none transition-all cursor-pointer shadow-2xs">
-                        <option value="">-- Primero selecciona un barbero --</option>
+                        <option value="">Primero selecciona un barbero</option>
                     </select>
                 </div>
                 <p id="modalServicioHelper" class="text-[11px] text-slate-500 mt-1.5 font-medium">El listado muestra tarifas y duración exclusiva de cada corte o técnica.</p>
@@ -65,7 +65,7 @@
             <div>
                 <label for="modalInputFecha" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5 flex items-center gap-2">
                     <span class="w-5 h-5 rounded-md bg-amber-100 text-amber-900 border border-amber-300/80 text-[10px] font-bold flex items-center justify-center">3</span>
-                    <span>Fecha de la Cita <span class="text-amber-600">*</span></span>
+                    <span>Fecha de la Cita <span class="text-amber-600"></span></span>
                 </label>
                 <div class="relative">
                     <input type="date" name="fecha" id="modalInputFecha" 
@@ -82,7 +82,7 @@
                 <div class="flex items-center justify-between mb-1.5">
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-2">
                         <span class="w-5 h-5 rounded-md bg-amber-100 text-amber-900 border border-amber-300/80 text-[10px] font-bold flex items-center justify-center">4</span>
-                        <span>Horario Disponible <span class="text-amber-600">*</span></span>
+                        <span>Horario Disponible <span class="text-amber-600"></span></span>
                     </label>
                     <span id="modalSlotsStatusBadge" class="text-[11px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/70"></span>
                 </div>
@@ -123,7 +123,6 @@
                         <span class="w-5 h-5 rounded-md bg-slate-100 text-slate-600 border border-slate-200 text-[10px] font-bold flex items-center justify-center">5</span>
                         <span>Instrucciones o notas para tu estilo</span>
                     </span>
-                    <span class="text-[10px] font-semibold text-slate-400 lowercase">(opcional)</span>
                 </label>
                 <textarea name="observacion" id="modalInputObservacion" rows="2" maxlength="500" 
                     placeholder="Ej: Degradado bajo con navaja, perfilado de barba, recorte suave arriba..."
@@ -315,7 +314,7 @@
         // Mostrar aviso de hora seleccionada
         const displayTxt = document.getElementById('modalHoraSeleccionadaTxt');
         const valDisplay = document.getElementById('modalHoraValDisplay');
-        valDisplay.innerText = `${formato12} (${hora24})`;
+        valDisplay.innerText = formato12;
         displayTxt.classList.remove('hidden');
     }
 
@@ -324,11 +323,13 @@
         const hora = document.getElementById('modalInputHora').value;
         if (!hora) {
             e.preventDefault();
-            Swal.fire({
+            const alertFn = window.swalBarbershop ? window.swalBarbershop.fire.bind(window.swalBarbershop) : Swal.fire;
+            alertFn({
+                position: "center",
                 title: "Selecciona una hora",
                 text: "Por favor pulsa sobre uno de los horarios libres disponibles para tu cita.",
                 icon: "info",
-                confirmButtonColor: "#c5a059",
+                iconColor: "#c5a059",
                 confirmButtonText: "Entendido"
             });
         }

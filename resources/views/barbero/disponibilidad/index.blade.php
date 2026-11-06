@@ -133,7 +133,7 @@
     </div>
 
     <!-- 3. Tabla de Franjas Registradas -->
-    <div class="relative bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+    <div id="tablaDisponibilidadBarberoCard" class="relative bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
         <!-- Destello ambiental sutil -->
         <div class="absolute -right-12 -top-12 w-36 h-36 rounded-full bg-amber-500/5 blur-2xl pointer-events-none"></div>
 
@@ -187,9 +187,9 @@
 
                             <!-- Franja Horaria -->
                             <td class="px-5 py-4">
-                                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200/80 font-bold text-slate-800 text-xs shadow-2xs">
+                                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200/80 font-bold text-slate-800 text-xs shadow-2xs font-mono">
                                     <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-500"></i>
-                                    <span>{{ \Carbon\Carbon::parse($disp->hora_inicio)->format('h:i A') }} – {{ \Carbon\Carbon::parse($disp->hora_fin)->format('h:i A') }}</span>
+                                    <span>{{ $disp->franja_12 }}</span>
                                 </div>
                             </td>
 
@@ -259,11 +259,42 @@
             </table>
         </div>
 
-        @if($disponibilidades->hasPages())
-            <div class="p-4 border-t border-slate-100">
-                {{ $disponibilidades->links() }}
+        <!-- Footer de Tabla: Resumen, Selector de Cantidad por Página y Paginación Establecida -->
+        <div class="px-5 py-3.5 sm:px-6 border-t border-slate-100 bg-slate-50/60 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2 text-xs text-slate-500 font-medium">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                <span>Mostrando</span>
+                <span class="font-bold text-slate-900 font-arial">{{ $disponibilidades->firstItem() ?? 0 }}–{{ $disponibilidades->lastItem() ?? 0 }}</span>
+                <span class="text-slate-400">de</span>
+                <span class="font-bold text-slate-900 font-arial">{{ $disponibilidades->total() }}</span>
+                <span>franjas registradas</span>
             </div>
-        @endif
+
+            <!-- Toolbar Derecha: Selector de Filas + Navegación Establecida -->
+            <div class="flex items-center gap-3 sm:gap-4 flex-wrap justify-center md:justify-end">
+                <!-- Selector Cantidad por Página -->
+                <div class="inline-flex items-center gap-1.5">
+                    <span class="text-xs text-slate-400 font-semibold hidden sm:inline">Mostrar:</span>
+                    <div class="inline-flex items-center bg-slate-100/90 p-1 rounded-2xl border border-slate-200/70">
+                        @foreach([5, 10, 15, 25] as $cant)
+                            <a href="{{ request()->fullUrlWithQuery(['per_page' => $cant, 'page' => 1]) }}"
+                            class="px-2.5 py-1 rounded-xl text-xs font-arial transition-all {{ request('per_page', 10) == $cant ? 'bg-white text-slate-950 font-bold shadow-xs border border-slate-200/80' : 'text-slate-500 hover:text-slate-900 hover:bg-white/60 font-semibold' }}">
+                                {{ $cant }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+
+                @if($disponibilidades->hasPages())
+                    <span class="h-4 w-px bg-slate-200 hidden sm:block"></span>
+
+                    {{-- Controles de Paginación Establecida del Sistema --}}
+                    <div>
+                        {{ $disponibilidades->links('vendor.pagination.custom') }}
+                    </div>
+                @endif
+            </div>
+        </div>
     </div>
 
 </div>
@@ -296,14 +327,22 @@
 
             <div class="grid grid-cols-2 gap-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hora Inicio</label>
-                    <input type="time" name="hora_inicio" required value="13:00"
-                        class="w-full text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:bg-white transition-all">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Hora Inicio</label>
+                        <span id="badge_inicio_12" class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 font-bold text-xs font-mono">01:00 PM</span>
+                    </div>
+                    <input type="time" name="hora_inicio" id="input_hora_inicio" required value="13:00"
+                        oninput="actualizarBadgeHora(this.value, 'badge_inicio_12')"
+                        class="w-full text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:bg-white transition-all font-mono">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Hora Fin</label>
-                    <input type="time" name="hora_fin" required value="14:00"
-                        class="w-full text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:bg-white transition-all">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Hora Fin</label>
+                        <span id="badge_fin_12" class="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 font-bold text-xs font-mono">02:00 PM</span>
+                    </div>
+                    <input type="time" name="hora_fin" id="input_hora_fin" required value="14:00"
+                        oninput="actualizarBadgeHora(this.value, 'badge_fin_12')"
+                        class="w-full text-xs font-semibold rounded-xl border border-slate-200 bg-slate-50/70 p-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-amber-500/30 focus:bg-white transition-all font-mono">
                 </div>
             </div>
 
@@ -336,7 +375,25 @@
 
 @push('scripts')
 <script>
+    function actualizarBadgeHora(valor24, badgeId) {
+        if (!valor24) return;
+        const partes = valor24.split(':');
+        if (partes.length >= 2) {
+            let hora = parseInt(partes[0], 10);
+            const min = partes[1];
+            const ampm = hora >= 12 ? 'PM' : 'AM';
+            hora = hora % 12 || 12;
+            const strHora = String(hora).padStart(2, '0');
+            const badge = document.getElementById(badgeId);
+            if (badge) {
+                badge.textContent = `${strHora}:${min} ${ampm}`;
+            }
+        }
+    }
+
     function abrirModalBloqueo() {
+        actualizarBadgeHora(document.getElementById('input_hora_inicio').value, 'badge_inicio_12');
+        actualizarBadgeHora(document.getElementById('input_hora_fin').value, 'badge_fin_12');
         document.getElementById('modalBloqueo').classList.remove('hidden');
     }
     function cerrarModalBloqueo() {
